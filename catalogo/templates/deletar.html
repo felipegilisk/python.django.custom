@@ -1,0 +1,5 @@
+<form method="post">
+    {% csrf_token %}
+    <p>Você está prestes a excluir o produto "{{ produto.nome }}". Tem certeza que deseja prosseguir?</p>
+    <button type="submit">Confirmar exclusão</button>
+</form>

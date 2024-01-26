@@ -33,7 +33,7 @@ python manage.py runserver
     ```
 - Desativar o servidor django: CTRL+C no terminal
 
-- Para criar um app chamado 'galeria':
+- Para criar um app chamado 'funcionarios':
     ```
-    python manage.py startapp galeria
+    python manage.py startapp funcionarios
     ```

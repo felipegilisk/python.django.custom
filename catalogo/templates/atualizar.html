@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+    <main">
+        {% include 'partials/_navbar.html' %}
+        <section class="conteudo">
+            <div class="container mt-4 text-center">
+                <h2 class="font-weight-bold text-white bg-info p-2">
+                    <i class="fas fa-table mr-2">Editar produto {{ produto.id_produto }}</i>
+                </h2>
+            </div>
+            <div class="container mt-4 align-text-top">
+                <form action="{% url 'update' produto.id_produto %}" method="POST">
+                    {% csrf_token %}
+                    {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}" class="col-3 align-top">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                    <div class="col-4 text-center">
+                        <button class="btn btn-success col-12" style="padding: top 5px;" type="submit">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+{% endblock %}
