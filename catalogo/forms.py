@@ -1,4 +1,5 @@
 from django import forms
+from django.db import models
 from catalogo.models import Produto
 
 
@@ -11,12 +12,12 @@ class ProdutoUpdateForm(forms.ModelForm):
         super(ProdutoUpdateForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             if field_name == "nome":
+                field.label = "Nome"
                 field.widget = forms.TextInput(
                     attrs={
                         'class': 'col-8',
                     }
                 )
-                field.label = "Nome"
 
             elif field_name == "descricao":
                 field.label = "Descrição"
@@ -38,6 +39,15 @@ class ProdutoUpdateForm(forms.ModelForm):
                     }
                 )
 
+class ProdutoInsertForm(ProdutoUpdateForm):
+    def __init__(self, *args, **kwargs):
+        super(ProdutoInsertForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field_name == "nome":
+                field.widget.attrs['placeholder'] = 'nome_do_produto'
 
-class ProdutoDeleteForm(forms.Form):
-    confirmar = forms.BooleanField(label="Confirmar", required=False)
+            elif field_name == "descricao":
+                field.widget.attrs['placeholder'] = 'descrição_do_produto'
+
+            elif field_name == "preco":
+                field.widget.attrs['placeholder'] = '0.00'

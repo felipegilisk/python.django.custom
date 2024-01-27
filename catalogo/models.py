@@ -1,10 +1,13 @@
 from django.db import models
 
+
 # Create your models here.
 class Produto(models.Model):
     id_produto = models.IntegerField(primary_key=True)
-    nome = models.CharField(max_length=100)
-    descricao = models.CharField(max_length=250)
+    max_length_nome = 100
+    nome = models.CharField(max_length=max_length_nome)
+    max_length_descricao = 250
+    descricao = models.CharField(max_length=max_length_descricao)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):

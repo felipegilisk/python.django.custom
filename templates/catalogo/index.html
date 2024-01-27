@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'catalogo/base.html' %}
 {% load static %}
 {% load bootstrap4 %}
 {% block content %}
@@ -28,7 +28,7 @@
                                 <td>{{ produto.descricao }}</td>
                                 <td class="text-right">{{ produto.preco|floatformat:2 }}</td>
                                 <td class="text-center"><a href="{% url 'editar' produto.id_produto %}">Editar</a></td>
-                                <td class="text-center"><a href="{% url 'delete' produto.id_produto %}">Deletar</a></td>
+                                <td class="text-center"><a href="{% url 'excluir' produto.id_produto %}">Excluir</a></td>
                             </tr>
                         {% endfor %}
                     </tbody>
