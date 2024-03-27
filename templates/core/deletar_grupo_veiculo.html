@@ -1,17 +1,17 @@
-{% extends 'catalogo/base.html' %}
+{% extends 'core/base.html' %}
 {% load static %}
 {% load bootstrap4 %}
 {% block content %}
-    <main">
+    <main>
         {% include 'partials/_navbar.html' %}
         <section class="conteudo">
             <div class="container mt-4 text-center">
                 <h2 class="font-weight-bold text-white bg-info p-2">
-                    <i class="fas fa-table mr-2">Apagar Produto # {{ produto.id_produto }}</i>
+                    <i class="fas fa-table mr-2">Apagar Grupo de Veículos # {{ grupo_veiculo.id_grupo_veiculo }}</i>
                 </h2>
             </div>
             <div class="container mt-4 align-text-top align">
-                <form action="{% url 'delete' produto.id_produto %}" method="POST">
+                <form action="{% url 'delete_grupo_veiculo' grupo_veiculo.id_grupo_veiculo %}" method="POST">
                     {% csrf_token %}
                     <div class="card mx-auto" style="width: 80%;">
                         <div class="card-body">
@@ -20,16 +20,12 @@
                                 <tbody>
                                     <tr></tr>
                                     <tr>
-                                        <td style="width: 25%"><strong>Nome</strong></td>
-                                        <td>{{ produto.nome }}</td>
-                                    </tr>
-                                    <tr>
                                         <td><strong>Descrição</strong></td>
-                                        <td>{{ produto.descricao }}</td>
+                                        <td>{{ grupo_veiculo.descricao_grupo }}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Preço</strong></td>
-                                        <td>{{ produto.preco }}</td>
+                                        <td>{{ grupo_veiculo.valor_mensal }}</td>
                                     </tr>
                                 </tbody>
                             </table>

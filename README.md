@@ -18,7 +18,7 @@ venv\Scripts\Activate
 
 4. Instalar as dependências do projeto (no ambiente virtual)
 ```
-pip install -m requirements.txt
+pip install -r requirements.txt
 ```
 
 5. Acionar o serviço do django

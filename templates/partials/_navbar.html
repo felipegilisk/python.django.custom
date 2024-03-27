@@ -2,16 +2,25 @@
 <div class="container">
     <nav class="navbar navbar-dark bg-primary">
         <a class="btn btn-outline-info bg-light" href="{% url 'home' %}">
-            Nunes Sports
+            SEU_NOME_AQUI
         </a>
         <div class="btn-group" role="group">
             <a class="btn btn-info" href="{% url 'home' %}">
                 Home
             </a>
-            <a class="btn btn-info" href="{% url 'cadastrar' %}">
-                Novo Produto
+            <a class="btn btn-info" href="{% url 'cadastrar_veiculo' %}">
+                Novo Veículo
             </a>
-        </div>
+            <div class="dropdown">
+                <button class="btn btn-info dropdown-toggle" type="button" id="dropdown-grupoveiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Grupo de Veículos
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdown-grupoveiculo">
+                    <a class="dropdown-item" href="{% url 'home' %}">Listar Grupos</a>
+                    <a class="dropdown-item" href="{% url 'cadastrar_grupo_veiculo' %}">Novo Grupo</a>
+                </div>
+              </div>
+        </div>              
     </nav>
 </div>
 {% if messages %}

@@ -21,7 +21,7 @@ from django.urls import path, include
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/catalogo/', permanent=True)),
+    path('', RedirectView.as_view(url='/core/')),
     path('admin/', admin.site.urls),
-    path('catalogo/', include('catalogo.urls')),
+    path('core/', include('core.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
