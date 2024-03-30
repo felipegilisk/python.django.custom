@@ -11,12 +11,18 @@
                 </h2>
             </div>
             <div class="container mt-4 align-text-top">
-                <form action="{% url 'update' grupo_veiculo.id_grupo_veiculo %}" method="POST">
+                <form action="{% url 'update_veiculo' veiculo.id_veiculo %}" method="POST">
                     {% csrf_token %}
-                    {% for field in form.visible_fields %}
+                    {% for field in form %}
                     <div class="form-group">
-                        <label for="{{ field.id_for_label }}" class="col-3 align-top">{{ field.label }}</label>
-                        {{ field }}
+                        <!-- <div class="container"> -->
+                            <!-- <div> -->
+                                <label for="{{ field.id_for_label }}" class="col-3 align-top">{{ field.label }}</label>
+                            <!-- </div> -->
+                            <!-- <div class="col-7"> -->
+                                {{ field }}
+                            <!-- </div> -->
+                        <!-- </div> -->
                     </div>
                     {% endfor %}
                     <div class="col-4 text-center">

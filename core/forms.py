@@ -58,6 +58,7 @@ class VeiculoUpdateForm(forms.ModelForm):
                 field.widget = forms.TextInput(
                     attrs={
                         'class': 'col-2',
+                        'maxlength': '7',
                     }
                 )
 
@@ -69,17 +70,10 @@ class VeiculoUpdateForm(forms.ModelForm):
                     }
                 )
 
-            elif field_name == "marca_modelo":
-                CHOICES = GrupoVeiculo.objects.all()
-                field.label = "Marca/Modelo"
-                field.widget = forms.ChoiceField(
-                    choices=CHOICES,
-                    widget=forms.Select(
-                        attrs={
-                            'class': 'col-4',
-                        },
-                    )
-                )
+            elif field_name == "grupo_veiculo":
+                field.label = "Grupo de Veículos"
+                field.widget.attrs['class'] = 'col-4'
+
 
 class VeiculoInsertForm(VeiculoUpdateForm):
     def __init__(self, *args, **kwargs):

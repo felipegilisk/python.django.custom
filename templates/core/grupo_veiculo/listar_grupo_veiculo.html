@@ -1,0 +1,37 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+  <main>
+    {% include 'partials/_navbar.html' %}
+    <section class="conteudo">
+      <div class="container mt-4 text-center">
+        <h2 class="font-weight-bold text-white bg-info p-2">
+          <i class="fas fa-table mr-2">Lista de Grupos de Veículos cadastrados</i>
+        </h2>
+      </div>
+      <div class="container mt-4">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <th>Código</th>
+            <th>Descrição</th>
+            <th class="column_vl_mensal">Valor Mensal</th>
+            <th class="column_editar">Editar</th>
+          <th class="column_excluir">Excluir</th>
+          </thead>
+          <tbody class="">
+            {% for grupo_veiculo in grupo_veiculos %}
+              <tr>
+                <td class="align-middle">{{ grupo_veiculo.id_grupo_veiculo }}</td>
+                <td class="align-middle">{{ grupo_veiculo.descricao_grupo }}</td>
+                <td class="text-right row_vl_mensal align-middle">{{ grupo_veiculo.valor_mensal|floatformat:2 }}</td>
+                <td class="align-middle"><a href="{% url 'editar_grupo_veiculo' grupo_veiculo.id_grupo_veiculo %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a></td>
+                <td class="align-middle"><a href="{% url 'excluir_grupo_veiculo' grupo_veiculo.id_grupo_veiculo %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+{% endblock %}

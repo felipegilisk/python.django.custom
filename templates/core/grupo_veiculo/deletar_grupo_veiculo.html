@@ -1,0 +1,46 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+  <main>
+    {% include 'partials/_navbar.html' %}
+    <section class="conteudo">
+      <div class="container mt-4 text-center">
+        <h2 class="font-weight-bold text-white bg-info p-2">
+          <i class="fas fa-table mr-2">Apagar Grupo de Veículos # {{ grupo_veiculo.id_grupo_veiculo }}</i>
+        </h2>
+      </div>
+      <div class="container mt-4 align-text-top align">
+        <form action="{% url 'delete_grupo_veiculo' grupo_veiculo.id_grupo_veiculo %}" method="POST">
+          {% csrf_token %}
+          <div class="card mx-auto" style="width: 80%;">
+            <div class="card-body">
+              <h5 class="card-title">Confirmar exclusão</h5>
+              <table class="table table-warning table-striped">
+                <tbody>
+                  <tr></tr>
+                  <tr>
+                    <td><strong>Descrição</strong></td>
+                    <td>{{ grupo_veiculo.descricao_grupo }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Preço</strong></td>
+                    <td>{{ grupo_veiculo.valor_mensal }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="card-body row">
+              <div class="col-6 text-left">
+                <button class="btn btn-danger col-12" type="submit">Excluir</button>
+              </div>
+              <div class="col-6 text-right">
+                <a class="btn btn-secondary col-12" href="{% url 'listar_grupo_veiculo' %}">Cancelar</a>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+{% endblock %}

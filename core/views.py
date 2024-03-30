@@ -12,11 +12,16 @@ def home(request):
     return render(request, r"core\index.html", {"grupo_veiculos": grupo_veiculos})
 
 
-### FORMS DE GRUPOS DE VEÍCULOS
+### GRUPOS DE VEÍCULOS
+
+def listar_grupo_veiculo(request):
+    grupo_veiculos = GrupoVeiculo.objects.all()
+    return render(request, r"core\grupo_veiculo\listar_grupo_veiculo.html", {"grupo_veiculos": grupo_veiculos})
+
 
 def cadastrar_grupo_veiculo(request):
     form = GrupoVeiculoInsertForm()
-    return render(request, r"core\cadastrar_grupo_veiculo.html", {'form': form})
+    return render(request, r"core\grupo_veiculo\cadastrar_grupo_veiculo.html", {'form': form})
 
 
 def insert_grupo_veiculo(request):
@@ -43,14 +48,14 @@ def insert_grupo_veiculo(request):
         else:
             messages.error(request, "Dados do formulário inválidos")
 
-    return redirect(home)
+    return redirect(listar_grupo_veiculo)
 
 
 def editar_grupo_veiculo(request, id_grupo_veiculo):
     grupo_veiculo = GrupoVeiculo.objects.get(id_grupo_veiculo=id_grupo_veiculo)
     form = GrupoVeiculoUpdateForm(instance=grupo_veiculo)
 
-    return render(request, r'core\atualizar_grupo_veiculo.html', {"grupo_veiculo": grupo_veiculo, "form": form})
+    return render(request, r'core\grupo_veiculo\atualizar_grupo_veiculo.html', {"grupo_veiculo": grupo_veiculo, "form": form})
 
 
 def update_grupo_veiculo(request, id_grupo_veiculo):
@@ -77,12 +82,12 @@ def update_grupo_veiculo(request, id_grupo_veiculo):
         else:
             messages.error(request, "Dados do formulário inválidos")
 
-    return redirect(home)
+    return redirect(listar_grupo_veiculo)
 
 
 def excluir_grupo_veiculo(request, id_grupo_veiculo):
     grupo_veiculo = GrupoVeiculo.objects.get(id_grupo_veiculo=id_grupo_veiculo)
-    return render(request, r'core\deletar_grupo_veiculo.html', {'grupo_veiculo': grupo_veiculo})
+    return render(request, r'core\grupo_veiculo\deletar_grupo_veiculo.html', {'grupo_veiculo': grupo_veiculo})
 
 
 def delete_grupo_veiculo(request, id_grupo_veiculo):
@@ -93,21 +98,28 @@ def delete_grupo_veiculo(request, id_grupo_veiculo):
             request,
             f"Grupo de Veículos código {id_grupo_veiculo} excluído com sucesso!"
         )
-    return redirect(home)
+    return redirect(listar_grupo_veiculo)
 
 
-### FORMS DE VEÍCULOS
+### VEÍCULOS
+
+def listar_veiculo(request):
+    if request.path == '/':
+        return redirect('')
+    veiculos = Veiculo.objects.all()
+    return render(request, r"core\veiculo\listar_veiculo.html", {"veiculos": veiculos})
+
 
 def cadastrar_veiculo(request):
     form = VeiculoInsertForm()
-    return render(request, r"core\cadastrar_veiculo.html", {'form': form})
+    return render(request, r"core\veiculo\cadastrar_veiculo.html", {'form': form})
 
 
 def insert_veiculo(request):
     if request.method == 'POST':
         form = VeiculoUpdateForm(request.POST)
         if form.is_valid():
-            placa = form['placa'].value()
+            placa = form['placa'].value().upper()
             marca_modelo = form['marca_modelo'].value()
             grupo_veiculo = GrupoVeiculo.objects.get(pk=form['grupo_veiculo'].value())
             
@@ -137,4 +149,62 @@ def insert_veiculo(request):
         else:
             messages.error(request, "Dados do formulário inválidos")
 
-    return redirect(home)
+    return redirect(listar_veiculo)
+
+
+def editar_veiculo(request, id_veiculo):
+    veiculo = Veiculo.objects.get(id_veiculo=id_veiculo)
+    form = VeiculoUpdateForm(instance=veiculo)
+
+    return render(request, r'core\veiculo\atualizar_veiculo.html', {"veiculo": veiculo, "form": form})
+
+
+def update_veiculo(request, id_veiculo):
+    veiculo = Veiculo.objects.get(id_veiculo=id_veiculo)
+    form = VeiculoUpdateForm(request.POST, instance=veiculo)
+    redir = request.META.get('HTTP_REFERER')
+
+    if request.method == 'POST':
+        if form.is_valid():
+            placa = form['placa'].value().upper()
+            marca_modelo = form['marca_modelo'].value()
+
+            if len(placa) != 7:
+                messages.error(
+                    request,
+                    f"Campo [ Placa ] estar no formato AAA1X11!"
+                )
+            elif len(marca_modelo) == 0:
+                messages.error(
+                    request,
+                    f"Campo [ Marca / Modelo ] deve ser preenchido!"
+                )
+            else:
+                veiculo.placa = placa
+                veiculo.marca_modelo = marca_modelo
+                veiculo.save()
+                messages.success(
+                    request,
+                    f"Veículo código {veiculo.id_veiculo} atualizado com sucesso!"
+                )
+                redir = listar_veiculo
+        else:
+            messages.error(request, "Dados do formulário inválidos")
+
+    return redirect(redir)
+
+
+def excluir_veiculo(request, id_veiculo):
+    veiculo = Veiculo.objects.get(id_veiculo=id_veiculo)
+    return render(request, r'core\veiculo\deletar_veiculo.html', {'veiculo': veiculo})
+
+
+def delete_veiculo(request, id_veiculo):
+    veiculo = Veiculo.objects.get(id_veiculo=id_veiculo)
+    if request.method == 'POST':
+        veiculo.delete()
+        messages.success(
+            request,
+            f"Veículo código {id_veiculo} excluído com sucesso!"
+        )
+    return redirect(listar_veiculo)

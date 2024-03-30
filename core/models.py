@@ -7,7 +7,7 @@ class GrupoVeiculo(models.Model):
     valor_mensal = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f"({self.id_grupo_veiculo}) - {self.descricao_grupo}"
+        return str(self.descricao_grupo)
 
 
 class Veiculo(models.Model):

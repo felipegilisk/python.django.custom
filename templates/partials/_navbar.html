@@ -1,34 +1,50 @@
 {% load static %}
 <div class="container">
-    <nav class="navbar navbar-dark bg-primary">
+  <nav class="navbar navbar-dark navbar-right bg-primary ml-auto">
+    <!-- <div class="" id="navbarResponsive"> -->
+      <div class="justify-content-start">
         <a class="btn btn-outline-info bg-light" href="{% url 'home' %}">
-            SEU_NOME_AQUI
+          SEU_NOME_AQUI
+        </a>
+      </div>
+      <div class="btn-group justify-content-end" role="group" aria-label="Button group with nested dropdown">
+        <a class="btn btn-light" href="{% url 'home' %}">
+          Home
         </a>
         <div class="btn-group" role="group">
-            <a class="btn btn-info" href="{% url 'home' %}">
-                Home
-            </a>
-            <a class="btn btn-info" href="{% url 'cadastrar_veiculo' %}">
-                Novo Veículo
-            </a>
-            <div class="dropdown">
-                <button class="btn btn-info dropdown-toggle" type="button" id="dropdown-grupoveiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Grupo de Veículos
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdown-grupoveiculo">
-                    <a class="dropdown-item" href="{% url 'home' %}">Listar Grupos</a>
-                    <a class="dropdown-item" href="{% url 'cadastrar_grupo_veiculo' %}">Novo Grupo</a>
-                </div>
-              </div>
-        </div>              
-    </nav>
+          <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Veículos
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdown-veiculo">
+            <a class="dropdown-item" href="{% url 'listar_veiculo' %}">Listar Veículos</a>
+            <a class="dropdown-item" href="{% url 'cadastrar_veiculo' %}">Novo Veículo</a>
+          </div>
+        </div>
+        <div class="btn-group" role="group">
+          <button class="btn btn-light dropdown-toggle" type="button" id="dropdown-grupoveiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Grupo de Veículos
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdown-grupoveiculo">
+            <a class="dropdown-item" href="{% url 'listar_grupo_veiculo' %}">Listar Grupos</a>
+            <a class="dropdown-item" href="{% url 'cadastrar_grupo_veiculo' %}">Novo Grupo</a>
+          </div>
+        </div>
+      </div>
+    <!-- </div> -->
+  </nav>
 </div>
 {% if messages %}
-    {% for message in messages %}
-        <div class="container">
-            <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-warning{% endif %}" role="alert">
-                {{ message }}
-            </div>
-        </div>
-    {% endfor %}
+  {% for message in messages %}
+    <div class="container">
+      <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} py-1" role="alert">
+        {% if message.tags == 'success' %}
+          <span class="btn-sm bg-transparent mb-1"><i class="bi bi-check-circle"></i></span>
+        {% else %}
+          <span class="btn-sm bg-transparent mb-1"><i class="bi bi-exclamation-circle"></i></span>
+        {% endif %}
+
+        {{ message }}
+      </div>
+    </div>
+  {% endfor %}
 {% endif %}
