@@ -17,8 +17,8 @@
           <th>Placa</th>
           <th>Marca/Modelo</th>
           <th>Grupo</th>
-          <th class="column_editar">Editar</th>
-          <th class="column_excluir">Excluir</th>
+          <th class="column_icon">Situação</th>
+          <th class="column_icon">Editar</th>
         </thead>
         <tbody>
           {% for veiculo in veiculos %}
@@ -27,8 +27,8 @@
               <td class="align-middle">{{ veiculo.placa }}</td>
               <td class="align-middle">{{ veiculo.marca_modelo }}</td>
               <td class="align-middle">{{ veiculo.grupo_veiculo }}</td>
+              <td class="align-middle text-center">{% if veiculo.situacao %}<i class="bi bi-car-front-fill h4"></i>{% else %}<i class="bi bi-x-circle-fill h4"></i>{% endif %}</td>
               <td class="align-middle text-center"><a href="{% url 'editar_veiculo' veiculo.id_veiculo %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a></td>
-              <td class="align-middle text-center"><a href="{% url 'excluir_veiculo' veiculo.id_veiculo %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></td>
             </tr>
           {% endfor %}
         </tbody>

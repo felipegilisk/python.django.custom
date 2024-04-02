@@ -3,6 +3,54 @@ from django.db import models
 from core.models import *
 
 
+### forms para unidades
+
+class UnidadeUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Unidade
+        fields = ['codigo_unidade', 'sigla_unidade', 'descricao_unidade']
+    
+    def __init__(self, *args, **kwargs):
+        super(UnidadeUpdateForm, self).__init__(*args, **kwargs)
+        for field_name, field, in self.fields.items():
+            if field_name == "codigo_unidade":
+                field.label = "Código da Unidade"
+                field.widget.attrs['class'] = 'col-1'
+                field.widget.attrs['min'] = '0'
+
+            elif field_name == "sigla_unidade":
+                field.label = "Sigla da Unidade"
+                field.widget = forms.TextInput(
+                    attrs={
+                        'class': 'col-2',
+                        'maxlength': '10'
+                    }
+                )
+
+            elif field_name == "descricao_unidade":
+                field.label = "Nome da Unidade"
+                field.widget = forms.TextInput(
+                    attrs={
+                        'class': 'col-8',
+                        'maxlength': '100'
+                    }
+                )
+
+
+class UnidadeInsertForm(UnidadeUpdateForm):
+    def __init__(self, *args, **kwargs):
+        super(UnidadeInsertForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field_name == "codigo_unidade":
+                field.widget.attrs['placeholder'] = '0'
+
+            elif field_name == "sigla_unidade":
+                field.widget.attrs['placeholder'] = 'sigla da unidade'
+
+            elif field_name == "descricao_unidade":
+                field.widget.attrs['placeholder'] = 'nome da unidade por extenso'
+
+
 ### forms para grupo de veículos
 
 class GrupoVeiculoUpdateForm(forms.ModelForm):
@@ -48,7 +96,7 @@ class GrupoVeiculoInsertForm(GrupoVeiculoUpdateForm):
 class VeiculoUpdateForm(forms.ModelForm):
     class Meta:
         model = Veiculo
-        fields = ['placa', 'marca_modelo', 'grupo_veiculo']
+        fields = ['placa', 'marca_modelo', 'grupo_veiculo', 'unidade', 'situacao']
 
     def __init__(self, *args, **kwargs):
         super(VeiculoUpdateForm, self).__init__(*args, **kwargs)
@@ -73,6 +121,13 @@ class VeiculoUpdateForm(forms.ModelForm):
             elif field_name == "grupo_veiculo":
                 field.label = "Grupo de Veículos"
                 field.widget.attrs['class'] = 'col-4'
+            
+            elif field_name == 'unidade':
+                field.label = "Unidade"
+                field.widget.attrs['class'] = 'col-2'
+
+            elif field_name == "situacao":
+                field.label = "Ativo"
 
 
 class VeiculoInsertForm(VeiculoUpdateForm):

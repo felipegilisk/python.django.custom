@@ -4,6 +4,13 @@ from core.views import *
 
 urlpatterns = [
     path('', home, name="home"),
+    # Unidade
+    path('listar_unidade/', listar_unidade, name="listar_unidade"),
+    path('cadastrar_unidade/', cadastrar_unidade, name="cadastrar_unidade"),
+    path('insert_unidade/', insert_unidade, name="insert_unidade"),
+    path('editar_unidade/<int:id_unidade>', editar_unidade, name="editar_unidade"),
+    path('update_unidade/<int:id_unidade>', update_unidade, name="update_unidade"),
+
     # Grupo Veiculo
     path('listar_grupo_veiculo/', listar_grupo_veiculo, name="listar_grupo_veiculo"),
     path('cadastrar_grupo_veiculo/', cadastrar_grupo_veiculo, name="cadastrar_grupo_veiculo"),
@@ -19,6 +26,5 @@ urlpatterns = [
     path('insert_veiculo/', insert_veiculo, name="insert_veiculo"),
     path('editar_veiculo/<int:id_veiculo>', editar_veiculo, name="editar_veiculo"),
     path('update_veiculo/<int:id_veiculo>', update_veiculo, name="update_veiculo"),
-    path('excluir_veiculo/<int:id_veiculo>', excluir_veiculo, name="excluir_veiculo"),
-    path('delete_veiculo/<int:id_veiculo>', delete_veiculo, name='delete_veiculo')
+
 ]

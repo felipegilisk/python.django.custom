@@ -1,0 +1,36 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+<main>
+  {% include 'partials/_navbar.html' %}
+  <section class="conteudo text-center">
+    <div class="container mt-4 text-center">
+      <h2 class="font-weight-bold text-white bg-info p-2">
+        <i class="fas fa-table mr-2">Lista de Unidades</i>
+      </h2>
+    </div>
+    <div class="container mt-4">
+      <table class="table table-striped">
+        <thead class="thead-orange">
+          <th>Código</th>
+          <th>Sigla</th>
+          <th>Nome</th>
+          <th class="column_icon">Editar</th>
+        </thead>
+        <tbody>
+          {% for unidade in unidades %}
+            <tr>
+              <td class="align-middle">{{ unidade.codigo_unidade }}</td>
+              <td class="align-middle">{{ unidade.sigla_unidade }}</td>
+              <td class="align-middle">{{ unidade.descricao_unidade }}</td>
+              <td class="align-middle text-center"><a href="{% url 'editar_unidade' unidade.id_unidade %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+{% endblock %}
+{% include 'partials/_footer.html' %}

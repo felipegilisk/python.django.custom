@@ -4,7 +4,7 @@
     <!-- <div class="" id="navbarResponsive"> -->
       <div class="justify-content-start">
         <a class="btn btn-outline-info bg-light" href="{% url 'home' %}">
-          SEU_NOME_AQUI
+          MED - SÃO
         </a>
       </div>
       <div class="btn-group justify-content-end" role="group" aria-label="Button group with nested dropdown">
@@ -13,11 +13,20 @@
         </a>
         <div class="btn-group" role="group">
           <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Unidades
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdown-veiculo">
+            <a class="dropdown-item" href="{% url 'listar_unidade' %}">Listar</a>
+            <a class="dropdown-item" href="{% url 'cadastrar_unidade' %}">Nova</a>
+          </div>
+        </div>
+        <div class="btn-group" role="group">
+          <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Veículos
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdown-veiculo">
-            <a class="dropdown-item" href="{% url 'listar_veiculo' %}">Listar Veículos</a>
-            <a class="dropdown-item" href="{% url 'cadastrar_veiculo' %}">Novo Veículo</a>
+            <a class="dropdown-item" href="{% url 'listar_veiculo' %}">Listar</a>
+            <a class="dropdown-item" href="{% url 'cadastrar_veiculo' %}">Novo</a>
           </div>
         </div>
         <div class="btn-group" role="group">
@@ -25,8 +34,8 @@
             Grupo de Veículos
           </button>
           <div class="dropdown-menu" aria-labelledby="dropdown-grupoveiculo">
-            <a class="dropdown-item" href="{% url 'listar_grupo_veiculo' %}">Listar Grupos</a>
-            <a class="dropdown-item" href="{% url 'cadastrar_grupo_veiculo' %}">Novo Grupo</a>
+            <a class="dropdown-item" href="{% url 'listar_grupo_veiculo' %}">Listar</a>
+            <a class="dropdown-item" href="{% url 'cadastrar_grupo_veiculo' %}">Novo</a>
           </div>
         </div>
       </div>
@@ -38,11 +47,10 @@
     <div class="container">
       <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} py-1" role="alert">
         {% if message.tags == 'success' %}
-          <span class="btn-sm bg-transparent mb-1"><i class="bi bi-check-circle"></i></span>
+          <span class="btn-sm bg-transparent mb-1"><i class="bi bi-check-circle p-1"></i></span>
         {% else %}
-          <span class="btn-sm bg-transparent mb-1"><i class="bi bi-exclamation-circle"></i></span>
+          <span class="btn-sm bg-transparent mb-1"><i class="bi bi-exclamation-circle p-1"></i></span>
         {% endif %}
-
         {{ message }}
       </div>
     </div>

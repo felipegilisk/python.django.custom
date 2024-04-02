@@ -27,12 +27,22 @@
                     <td><strong>Preço</strong></td>
                     <td>{{ grupo_veiculo.valor_mensal }}</td>
                   </tr>
+                  <tr>
+                    <td><strong>Quantidade de veículos</strong></td>
+                    <td>{{ veiculos_deste_grupo|length }}</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
             <div class="card-body row">
               <div class="col-6 text-left">
+                {% if veiculos_deste_grupo|length > 0 %}
+                <span class="d-inline-block col-12 p-0" tabindex="0" data-toggle="tooltip" title="Verifique a quantidade de veículos no grupo">
+                  <button class="btn btn-danger col-12" style="pointer-events: none;" type="submit" disabled>Excluir</button>
+                </span>
+                {% else %}
                 <button class="btn btn-danger col-12" type="submit">Excluir</button>
+                {% endif %}
               </div>
               <div class="col-6 text-right">
                 <a class="btn btn-secondary col-12" href="{% url 'listar_grupo_veiculo' %}">Cancelar</a>

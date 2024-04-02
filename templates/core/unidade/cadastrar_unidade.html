@@ -7,22 +7,16 @@
         <section class="conteudo">
             <div class="container mt-4 text-center">
                 <h2 class="font-weight-bold text-white bg-info p-2">
-                    <i class="fas fa-table mr-2">Editar Veículo {{ veiculo.id_veiculo }}</i>
+                    <i class="fas fa-table mr-2">Cadastrar nova Unidade</i>
                 </h2>
             </div>
-            <div class="container mt-4 align-text-top">
-                <form action="{% url 'update_veiculo' veiculo.id_veiculo %}" method="POST">
+            <div class="container mt-4">
+                <form action="{% url 'insert_unidade' %}" method="POST">
                     {% csrf_token %}
-                    {% for field in form %}
+                    {% for field in form.visible_fields %}
                     <div class="form-group">
-                        <!-- <div class="container"> -->
-                            <!-- <div> -->
-                                <label for="{{ field.id_for_label }}" class="col-3 align-top">{{ field.label }}</label>
-                            <!-- </div> -->
-                            <!-- <div class="col-7"> -->
-                                {{ field }}
-                            <!-- </div> -->
-                        <!-- </div> -->
+                        <label for="{{ field.id_for_label }}" class="col-3 align-top">{{ field.label }}</label>
+                        {{ field }}
                     </div>
                     {% endfor %}
                     <div class="col-4 text-center">

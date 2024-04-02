@@ -4,7 +4,12 @@ $(document).ready(function () {
       var valorFormatado = parseFloat(valor).toFixed(2);
       $(this).val(valorFormatado);
   });
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
 });
+
 
 document.addEventListener('DOMContentLoaded', function() {
   const placaInput = document.querySelector('input[name="placa"]');

@@ -3,7 +3,11 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.column_editar, .column_excluir {
+.conteudo {
+    width: 90%;
+    margin: auto;
+}
+.column_icon {
     width: 40px;
 }
 .column_vl_mensal {
@@ -15,8 +19,14 @@ td.row_vl_mensal{
 thead.thead-yellow th {
     background-color: #fdff7c;
 }
+thead.thead-orange th {
+    background-color: #ffa844;
+}
 input[name="placa"] {
     max-width: 95px !important;
     text-transform: uppercase;
     font-family: monospace;
+}
+i {
+    vertical-align: 0.125em;
 }
