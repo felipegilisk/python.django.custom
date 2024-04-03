@@ -7,7 +7,7 @@
   <section class="conteudo">
     <div class="container mt-4 text-center">
       <h2 class="font-weight-bold text-white bg-info p-2">
-        <i class="fas fa-table mr-2">Lista de Veículos cadastrados</i>
+        <i class="fas fa-table mr-2">Medição do mês {{ medicao.mes_medicao }}</i>
       </h2>
     </div>
     <div class="container mt-4">
@@ -17,8 +17,7 @@
           <th>Placa</th>
           <th>Marca/Modelo</th>
           <th>Grupo</th>
-          <th>Unidade</th>
-          <th class="column_icon">Situação</th>
+          <th>Valor Mensal</th>
           <th class="column_icon">Editar</th>
         </thead>
         <tbody>
@@ -28,8 +27,7 @@
               <td class="align-middle">{{ veiculo.placa }}</td>
               <td class="align-middle">{{ veiculo.marca_modelo }}</td>
               <td class="align-middle">{{ veiculo.grupo_veiculo }}</td>
-              <td class="align-middle">{{ veiculo.unidade }}</td>
-              <td class="align-middle text-center">{% if veiculo.situacao %}<i class="bi bi-car-front-fill h4"></i>{% else %}<i class="bi bi-x-circle-fill h4"></i>{% endif %}</td>
+              <td class="align-middle">{{ veiculo.grupo_veiculo.valor_mensal }}</td>
               <td class="align-middle text-center"><a href="{% url 'editar_veiculo' veiculo.id_veiculo %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a></td>
             </tr>
           {% endfor %}

@@ -8,17 +8,12 @@ from core.models import *
 class UnidadeUpdateForm(forms.ModelForm):
     class Meta:
         model = Unidade
-        fields = ['codigo_unidade', 'sigla_unidade', 'descricao_unidade']
+        fields = ['sigla_unidade', 'descricao_unidade']
     
     def __init__(self, *args, **kwargs):
         super(UnidadeUpdateForm, self).__init__(*args, **kwargs)
         for field_name, field, in self.fields.items():
-            if field_name == "codigo_unidade":
-                field.label = "Código da Unidade"
-                field.widget.attrs['class'] = 'col-1'
-                field.widget.attrs['min'] = '0'
-
-            elif field_name == "sigla_unidade":
+            if field_name == "sigla_unidade":
                 field.label = "Sigla da Unidade"
                 field.widget = forms.TextInput(
                     attrs={
@@ -41,10 +36,7 @@ class UnidadeInsertForm(UnidadeUpdateForm):
     def __init__(self, *args, **kwargs):
         super(UnidadeInsertForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            if field_name == "codigo_unidade":
-                field.widget.attrs['placeholder'] = '0'
-
-            elif field_name == "sigla_unidade":
+            if field_name == "sigla_unidade":
                 field.widget.attrs['placeholder'] = 'sigla da unidade'
 
             elif field_name == "descricao_unidade":

@@ -11,8 +11,7 @@ from core.forms import *
 def home(request):
     if request.path == '/':
         return redirect('')
-    grupo_veiculos = GrupoVeiculo.objects.all()
-    return render(request, r"core\index.html", {"grupo_veiculos": grupo_veiculos})
+    return render(request, r"index.html")
 
 
 #####################
@@ -20,7 +19,7 @@ def home(request):
 #####################
 
 def listar_unidade(request):
-    unidades = Unidade.objects.all().order_by('codigo_unidade')
+    unidades = Unidade.objects.all().order_by('id_unidade')
     return render(request, r"core\unidade\listar_unidade.html", {"unidades": unidades})
 
 
@@ -33,18 +32,18 @@ def insert_unidade(request):
     if request.method == 'POST':
         form = UnidadeInsertForm(request.POST)
         if form.is_valid():
-            codigo_unidade = form['codigo_unidade'].value()
+            id_unidade = form['id_unidade'].value()
             sigla_unidade = form['sigla_unidade'].value()
             descricao_unidade = form['descricao_unidade'].value()
             
-            if float(codigo_unidade) <= 0:
+            if float(id_unidade) <= 0:
                 messages.error(
                     request,
                     f"Campo [ Código da Unidade ] deve conter um valor positivo!"
                 )
             else:
                 Unidade.objects.create(
-                    codigo_unidade = codigo_unidade,
+                    id_unidade = id_unidade,
                     sigla_unidade = sigla_unidade,
                     descricao_unidade = descricao_unidade
                 )
@@ -53,56 +52,10 @@ def insert_unidade(request):
                     "Unidade cadastrada com sucesso!"
                 )
         else:
-            if 'codigo_unidade' in form.errors.keys() and 'Unidade with this Codigo unidade already exists.' in form.errors['codigo_unidade']:
-                messages.error(request, "Já existe uma Unidade com este código!")
-            else:
-                messages.error(request, f"Dados do formulário inválidos! {form.errors.as_text()}")
+            messages.error(request, f"Dados do formulário inválidos! {form.errors.as_text()}")
 
     return redirect(listar_unidade)
 
-
-def editar_unidade(request, id_unidade):
-    unidade = Unidade.objects.get(id_unidade=id_unidade)
-    form = UnidadeUpdateForm(instance=unidade)
-
-    return render(request, r'core\unidade\editar_unidade.html', {"unidade": unidade, "form": form})
-
-
-def update_unidade(request, id_unidade):
-    unidade = Unidade.objects.get(id_unidade=id_unidade)
-    form = UnidadeUpdateForm(request.POST, instance=unidade)
-    redir = request.META.get('HTTP_REFERER')
-
-    if request.method == 'POST':
-        if form.is_valid():
-            codigo_unidade = form['codigo_unidade'].value()
-            sigla_unidade = form['sigla_unidade'].value()
-            descricao_unidade = form['descricao_unidade'].value()
-
-            if float(codigo_unidade) <= 0:
-                messages.error(
-                    request,
-                    f"Campo [ Código da Unidade ] deve conter um valor positivo!"
-                )
-            else:
-                unidade.codigo_unidade = codigo_unidade
-                unidade.sigla_unidade = sigla_unidade
-                unidade.descricao_unidade = descricao_unidade
-                unidade.save()
-
-                messages.success(
-                    request,
-                    "Unidade atualizada com sucesso!"
-                )
-                redir = listar_unidade
-        else:
-            if 'codigo_unidade' in form.errors.keys() and 'Unidade with this Codigo unidade already exists.' in form.errors['codigo_unidade']:
-                messages.error(request, "Já existe uma Unidade com este código!")
-            else:
-                messages.error(request, f"Dados do formulário inválidos! {form.errors.as_text()}")
-
-
-    return redirect(redir)
 
 #####################
 ### GRUPOS DE VEÍCULOS
@@ -207,7 +160,7 @@ def delete_grupo_veiculo(request, id_grupo_veiculo):
 def listar_veiculo(request):
     if request.path == '/':
         return redirect('')
-    veiculos = Veiculo.objects.all()
+    veiculos = Veiculo.objects.exclude(unidade_id=0).order_by('grupo_veiculo_id')
     return render(request, r"core\veiculo\listar_veiculo.html", {"veiculos": veiculos})
 
 
@@ -293,7 +246,12 @@ def update_veiculo(request, id_veiculo):
                 )
                 redir = listar_veiculo
         else:
-            messages.error(request, "Dados do formulário inválidos")
+            for error in form.errors.keys():
+                messages.error(request, form.errors[error])
+            # if 'placa' in form.errors.keys() and 'Veiculo with this Placa already exists.' in form.errors['placa']:
+            #     messages.error(request, "Já existe um veículo cadastrado com esta placa!")
+            # else:
+            #     messages.error(request, f"Dados do formulário inválidos! {form.errors.as_text()}")
 
     return redirect(redir)
 

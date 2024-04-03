@@ -1,47 +1,49 @@
 {% load static %}
-<div class="container">
-  <nav class="navbar navbar-dark navbar-right bg-primary ml-auto">
-    <!-- <div class="" id="navbarResponsive"> -->
-      <div class="justify-content-start">
-        <a class="btn btn-outline-info bg-light" href="{% url 'home' %}">
-          MED - SÃO
-        </a>
-      </div>
-      <div class="btn-group justify-content-end" role="group" aria-label="Button group with nested dropdown">
-        <a class="btn btn-light" href="{% url 'home' %}">
-          Home
-        </a>
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Unidades
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdown-veiculo">
-            <a class="dropdown-item" href="{% url 'listar_unidade' %}">Listar</a>
-            <a class="dropdown-item" href="{% url 'cadastrar_unidade' %}">Nova</a>
-          </div>
-        </div>
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Veículos
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdown-veiculo">
-            <a class="dropdown-item" href="{% url 'listar_veiculo' %}">Listar</a>
-            <a class="dropdown-item" href="{% url 'cadastrar_veiculo' %}">Novo</a>
-          </div>
-        </div>
-        <div class="btn-group" role="group">
-          <button class="btn btn-light dropdown-toggle" type="button" id="dropdown-grupoveiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Grupo de Veículos
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdown-grupoveiculo">
-            <a class="dropdown-item" href="{% url 'listar_grupo_veiculo' %}">Listar</a>
-            <a class="dropdown-item" href="{% url 'cadastrar_grupo_veiculo' %}">Novo</a>
-          </div>
+<nav class="navbar navbar-dark navbar-right bg-primary ml-auto">
+  <div class="justify-content-start">
+    <a class="btn btn-outline-info bg-light mx-4" href="{% url 'home' %}">
+      MED - SÃO
+    </a>
+    <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+      <a class="btn btn-light" href="{% url 'home' %}">
+        Home
+      </a>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Locação
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdown-veiculo">
+          <a class="dropdown-item" href="{% url 'listar_reservas' %}">Reservas</a>
         </div>
       </div>
-    <!-- </div> -->
-  </nav>
-</div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Unidades
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdown-veiculo">
+          <a class="dropdown-item" href="{% url 'listar_unidade' %}">Listar</a>
+          <a class="dropdown-item" href="{% url 'cadastrar_unidade' %}">Nova</a>
+        </div>
+      </div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Veículos
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdown-veiculo">
+          <li><a class="dropdown-item" href="{% url 'listar_veiculo' %}">Listar</a></li>
+          <li><a class="dropdown-item" href="{% url 'cadastrar_veiculo' %}">Novo</a></li>
+          <li>
+            <a class="dropdown-item dropleft" href="#">Grupo de Veículos<i class="bi bi-caret-right-fill btn-sm"></i></a>
+            <ul class="dropdown-menu dropdown-submenu">
+              <li><a class="dropdown-item" href="{% url 'listar_grupo_veiculo' %}">Listar</a></li>
+              <li><a class="dropdown-item" href="{% url 'cadastrar_grupo_veiculo' %}">Novo</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
 {% if messages %}
   {% for message in messages %}
     <div class="container">
@@ -49,7 +51,7 @@
         {% if message.tags == 'success' %}
           <span class="btn-sm bg-transparent mb-1"><i class="bi bi-check-circle p-1"></i></span>
         {% else %}
-          <span class="btn-sm bg-transparent mb-1"><i class="bi bi-exclamation-circle p-1"></i></span>
+          <span class="btn-sm bg-transparent mb-1"><i class="bi bi-exclamation-circle p-1"></i></span> Aviso:
         {% endif %}
         {{ message }}
       </div>
