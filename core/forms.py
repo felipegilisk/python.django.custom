@@ -17,7 +17,7 @@ class UnidadeUpdateForm(forms.ModelForm):
                 field.label = "Sigla da Unidade"
                 field.widget = forms.TextInput(
                     attrs={
-                        'class': 'col-2',
+                        'class': 'col-4',
                         'maxlength': '10'
                     }
                 )
@@ -117,10 +117,11 @@ class VeiculoUpdateForm(forms.ModelForm):
             elif field_name == 'unidade':
                 field.label = "Unidade"
                 field.widget.attrs['class'] = 'col-2'
+                
 
             elif field_name == "situacao":
                 field.label = "Ativo"
-
+                field.widget.attrs['class'] = 'form-check-input'
 
 class VeiculoInsertForm(VeiculoUpdateForm):
     def __init__(self, *args, **kwargs):

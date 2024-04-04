@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block content %}
+<main class="flex-fill custom-main">
+  {% include 'partials/_navbar.html' %}
+  <section class="conteudo">
+    <div class="container mt-4 text-center">
+      <h2 class="font-weight-bold header-1 p-2">
+        <span class="fas fa-table mr-2">Apontamentos de medição <i class="bi bi-wrench"></i></span>
+      </h2>
+    </div>
+    <div class="container mt-4 align-text-top">
+      <form>
+        {% load i18n %}
+        {% language 'pt-br' %}
+        {% csrf_token %}
+          <div>
+            Em construção
+          </div>
+        {% endlanguage %}
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}
+{% include 'partials/_footer.html' %}

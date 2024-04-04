@@ -8,6 +8,11 @@ $(document).ready(function () {
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
+
+  $('#id_mes_medicao_day').hide();
+  $('#id_mes_medicao_day').prop('disabled', true);
+  $('#id_mes_medicao_day option:not(:nth-child(2))').remove();
+
 });
 
 const placaInput = document.querySelector('input[name="placa"]');

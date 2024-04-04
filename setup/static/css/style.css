@@ -3,8 +3,11 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-main.custom_main{
-    margin-bottom: 60px;
+main.custom-main {
+    margin-bottom: 42px;
+}
+.header-1 {
+    background-color: #ffc179;
 }
 .conteudo {
     width: 90%;
@@ -29,6 +32,9 @@ input[name="placa"] {
     max-width: 95px !important;
     text-transform: uppercase;
     font-family: monospace;
+}
+input#id_mes_medicao_day {
+    display: none;
 }
 i {
     vertical-align: 0.125em;
