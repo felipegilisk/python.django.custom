@@ -170,43 +170,29 @@ def cadastrar_veiculo(request):
 
 
 def insert_veiculo(request):
+    redir = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
         form = VeiculoInsertForm(request.POST)
         if form.is_valid():
             placa = form['placa'].value().upper()
             marca_modelo = form['marca_modelo'].value()
             grupo_veiculo = GrupoVeiculo.objects.get(pk=form['grupo_veiculo'].value())
-            
-            if len(placa) != 7:
-                messages.error(
-                    request,
-                    f"Campo [ Placa ] deve conter exatamente 7 caracteres"
-                )
-            
-            elif len(marca_modelo) == 0:
-                messages.error(
-                    request,
-                    f"Campo [ Marca/Modelo ] não pode ficar em branco"
-                )
 
-            else:
-                Veiculo.objects.create(
-                    placa = placa,
-                    marca_modelo = marca_modelo,
-                    grupo_veiculo = grupo_veiculo
-
-                )
-                messages.success(
-                    request,
-                    "Veículo cadastrado com sucesso!"
-                )
+            Veiculo.objects.create(
+                placa = placa,
+                marca_modelo = marca_modelo,
+                grupo_veiculo = grupo_veiculo
+            )
+            messages.success(
+                request,
+                "Veículo cadastrado com sucesso!"
+            )
+            redir = listar_veiculo
         else:
-            if 'placa' in form.errors.keys() and 'Veiculo with this Placa already exists.' in form.errors['placa']:
-                messages.error(request, "Já existe um veículo cadastrado com esta placa!")
-            else:
-                messages.error(request, f"Dados do formulário inválidos! {form.errors.as_text()}")
+            for error in form.errors.keys():
+                messages.error(request, form.errors[error])
 
-    return redirect(listar_veiculo)
+    return redirect(redir)
 
 
 def editar_veiculo(request, id_veiculo):
@@ -226,32 +212,17 @@ def update_veiculo(request, id_veiculo):
             placa = form['placa'].value().upper()
             marca_modelo = form['marca_modelo'].value()
 
-            if len(placa) != 7:
-                messages.error(
-                    request,
-                    f"Campo [ Placa ] estar no formato AAA1X11!"
-                )
-            elif len(marca_modelo) == 0:
-                messages.error(
-                    request,
-                    f"Campo [ Marca / Modelo ] deve ser preenchido!"
-                )
-            else:
-                veiculo.placa = placa
-                veiculo.marca_modelo = marca_modelo
-                veiculo.save()
-                messages.success(
-                    request,
-                    f"Veículo código {veiculo.id_veiculo} atualizado com sucesso!"
-                )
-                redir = listar_veiculo
+            veiculo.placa = placa
+            veiculo.marca_modelo = marca_modelo
+            veiculo.save()
+            messages.success(
+                request,
+                f"Veículo placa {veiculo.placa} atualizado com sucesso!"
+            )
+            redir = listar_veiculo
         else:
             for error in form.errors.keys():
                 messages.error(request, form.errors[error])
-            # if 'placa' in form.errors.keys() and 'Veiculo with this Placa already exists.' in form.errors['placa']:
-            #     messages.error(request, "Já existe um veículo cadastrado com esta placa!")
-            # else:
-            #     messages.error(request, f"Dados do formulário inválidos! {form.errors.as_text()}")
 
     return redirect(redir)
 

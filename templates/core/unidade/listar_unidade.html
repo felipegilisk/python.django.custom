@@ -24,7 +24,7 @@
                 <td class="align-middle">{{ unidade.id_unidade }}</td>
                 <td class="align-middle">{{ unidade.sigla_unidade }}</td>
                 <td class="align-middle">{{ unidade.descricao_unidade }}</td>
-                <td class="align-middle">63.025.530</td>
+                <td class="align-middle">{% if unidade.id_unidade == 0 %}-{% else %}63.025.530{% endif %}</td>
               </tr>
             {% endfor %}
           </tbody>

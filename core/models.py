@@ -1,3 +1,4 @@
+from rest_framework import serializers
 from django.db import models
 from django.core.validators import RegexValidator, MinLengthValidator, MaxLengthValidator
 
@@ -27,7 +28,7 @@ class Veiculo(models.Model):
         unique=True,
         validators = [
             RegexValidator(
-                regex='^([A-Z]){3}(\d){1}([A-Z]|\d){1}(\d){2}',
+                regex="([A-Z]){3}[0-9]([0-9]|[A-J])([0-9]){2}",
                 message="Insira uma placa no formato AAA1A11",
                 code="invalid_registration"
                 ),
@@ -48,4 +49,28 @@ class Veiculo(models.Model):
 
     def __str__(self):
         return f"{self.placa} - {self.marca_modelo}"
+    
 
+########################################
+###### Serializer
+########################################
+
+class GrupoVeiculoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GrupoVeiculo
+        fields = ('id_grupo_veiculo', 'descricao_grupo', 'valor_mensal')
+
+
+class UnidadeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Unidade
+        fields = ('id_unidade', 'sigla_unidade', 'descricao_unidade')
+
+
+class VeiculoSerializer(serializers.ModelSerializer):
+    grupo_veiculo = GrupoVeiculoSerializer()
+    unidade = UnidadeSerializer()
+
+    class Meta:
+        model = Veiculo
+        fields = ('id_veiculo', 'placa', 'marca_modelo', 'grupo_veiculo', 'situacao', 'unidade')
