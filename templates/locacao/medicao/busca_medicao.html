@@ -51,7 +51,7 @@
   </section>
 </main>
 <script>
-  var veic_ser = {{ veic_ser | safe }};
+  var veic_ser = JSON.parse('{{ veic_ser | safe }}');
 </script>
 <script src="{% static 'js/medicao.js' %}"></script>
 {% endblock %}
