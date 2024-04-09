@@ -1,5 +1,6 @@
 from django.db import models
-from core.models import Veiculo, Unidade
+from core.models import Veiculo, Unidade, UnidadeSerializer, VeiculoSerializer
+from rest_framework import serializers
 
 
 class SituacaoMedicao(models.Model):
@@ -35,7 +36,23 @@ class Indisponibilidade(models.Model):
     data_hora_inicio = models.DateTimeField()
     data_hora_termino = models.DateTimeField()
     veiculo = models.ForeignKey(Veiculo, on_delete=models.PROTECT)
-    valor_base_veiculo = models.DecimalField(max_digits=10, decimal_places=2)
-    valor_indisponibilidade = models.DecimalField(max_digits=10, decimal_places=2)
-    apontamento_reserva = models.ForeignKey(ApontamentoReserva, null=True, on_delete=models.SET_NULL)
+    valor_base_veiculo = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+    valor_indisponibilidade = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+    tem_reserva = models.BooleanField(default=False)
+    apontamento_reserva = models.ForeignKey(ApontamentoReserva, null=True, blank=True, on_delete=models.SET_NULL)
+    status = models.BooleanField(default=False)
+
+
+
+########################################
+###### Serializer
+########################################
+
+class IndisponibilidadeSerializer(serializers.ModelSerializer):
+    veiculo = VeiculoSerializer(read_only=True)
+    # unidade = UnidadeSerializer()
+
+    class Meta:
+        model = Indisponibilidade
+        fields = ('data_hora_inicio', 'data_hora_termino', 'veiculo', 'valor_base_veiculo', 'valor_indisponibilidade')
 

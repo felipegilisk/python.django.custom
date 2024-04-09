@@ -56,3 +56,7 @@ i {
 .dropdown-menu > li:hover > .dropdown-submenu {
     display: block;
 }
+table#table_1 tfoot tr td{
+    background-color: #4d4d4d;
+    color: #fff;
+}
