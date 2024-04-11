@@ -21,6 +21,15 @@
             {{ field }}
           </div>
         {% endfor %}
+        <fieldset id="reserva_form" style="display:none;">
+          <legend>Apontamento de Reserva</legend>
+          {% for field in form.apontamento_reserva %}
+          <div class="my-2">
+            <label for="{{ field.id_for_label }}" class="col-3 ml-1 align-top">{{ field.label }}</label>
+            {{ field }}
+          </div>
+          {% endfor %}
+        </fieldset>
         <div class="col-4 text-center">
             <button class="btn btn-success col-12" style="padding: top 5px;" type="submit">Salvar</button>
         </div>

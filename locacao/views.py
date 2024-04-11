@@ -2,6 +2,7 @@ from datetime import date, datetime
 from json import dumps
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import JsonResponse
 from locacao.models import *
 from core.models import *
 from locacao.forms import *
@@ -98,3 +99,9 @@ def insert_indisponibilidade(request):
                 messages.error(request, form.errors[error])
     
     return redirect(pre_medicao)
+
+
+def veiculo_get_valor_mensal(request, veiculo_id):
+    veiculo = Veiculo.objects.get(pk=veiculo_id)
+    valor_mensal = veiculo.grupo_veiculo.valor_mensal
+    return JsonResponse({'valor_mensal': valor_mensal})

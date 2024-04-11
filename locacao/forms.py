@@ -37,7 +37,38 @@ class MedicaoFilterForm(forms.ModelForm):
                 field.queryset = Unidade.objects.filter(veiculo__situacao=True).exclude(id_unidade=0).distinct()
 
 
+class ApontamentoReservaInsertForm(forms.ModelForm):
+    class Meta:
+        model = ApontamentoReserva
+        fields = [
+            "veiculo_reserva",
+            "data_hora_inicio",
+            "data_hora_termino",
+            "valor_mensal_considerado",
+            "valor_total_uso"
+        ]
+    
+    def __init__(self, *args, **kwargs):
+        super(ApontamentoReservaInsertForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            if field_name == "veiculo_reserva":
+                field.label = "Veículo Reserva"
+                field.widget.attrs['class'] = 'col-4'
+                field.queryset = Veiculo.objects.filter(unidade_id=0, situacao=1)
+
+            elif field_name == "data_hora_inicio":
+                field.label = "Início"
+                field.widget = DateTimeLocalInput()
+                field.widget.attrs['class'] = 'col-3'
+            
+            elif field_name == "data_hora_termino":
+                field.label = "Término"
+                field.widget = DateTimeLocalInput()
+                field.widget.attrs['class'] = 'col-3'
+
+
 class IndisponibilidadeUpdateForm(forms.ModelForm):
+    apontamento_reserva = ApontamentoReservaInsertForm()
     class Meta:
         model = Indisponibilidade
         fields = [
@@ -45,9 +76,11 @@ class IndisponibilidadeUpdateForm(forms.ModelForm):
             'data_hora_inicio',
             'data_hora_termino',
             'veiculo',
+            'valor_base_veiculo',
+            'valor_indisponibilidade',
             'tem_reserva',
-            'valor_base_veiculo'
         ]
+        
 
     def __init__(self, *args, **kwargs):
         super(IndisponibilidadeUpdateForm, self).__init__(*args, **kwargs)
@@ -73,9 +106,13 @@ class IndisponibilidadeUpdateForm(forms.ModelForm):
                 field.queryset = Veiculo.objects.exclude(unidade_id=0, situacao=1)
             
             elif field_name == "tem_reserva":
-                field.label = "Veículo reserva"
+                field.label = "Veículo reserva fornecido?"
                 field.widget.attrs['class'] = 'form-check-input'
-    
+            
+            elif field_name == "apontamento_reserva":
+                field.required = False
+
+
     def clean(self):
         cleaned_data = super().clean()
         veiculo = cleaned_data.get('veiculo')
@@ -90,3 +127,4 @@ class IndisponibilidadeUpdateForm(forms.ModelForm):
 class IndisponibilidadeInsertForm(IndisponibilidadeUpdateForm):
     def __init__(self, *args, **kwargs):
         super(IndisponibilidadeInsertForm, self).__init__(*args, **kwargs)
+
