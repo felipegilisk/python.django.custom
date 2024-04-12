@@ -25,4 +25,6 @@ urlpatterns = [
     path('editar_veiculo/<int:id_veiculo>', editar_veiculo, name="editar_veiculo"),
     path('update_veiculo/<int:id_veiculo>', update_veiculo, name="update_veiculo"),
 
+    # dados diversos
+    path('veiculo_get_valor_mensal/<int:id_veiculo>', veiculo_get_valor_mensal, name='veiculo_get_valor_mensal'),
 ]

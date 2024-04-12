@@ -18,16 +18,24 @@
         {% for field in form %}
           <div class="my-2">
             <label for="{{ field.id_for_label }}" class="col-3 ml-1 align-top">{{ field.label }}</label>
+            {% if "valor" in field.name%}
+              <input type="number" name="{{ field.name }}" step="0.01" id="{{ field.auto_id }}" readonly value="0.00">
+            {% else %}
             {{ field }}
+            {% endif %}
           </div>
         {% endfor %}
         <fieldset id="reserva_form" style="display:none;">
           <legend>Apontamento de Reserva</legend>
           {% for field in form.apontamento_reserva %}
-          <div class="my-2">
-            <label for="{{ field.id_for_label }}" class="col-3 ml-1 align-top">{{ field.label }}</label>
-            {{ field }}
-          </div>
+            <div class="my-2">
+              <label for="{{ field.id_for_label }}" class="col-3 ml-1 align-top">{{ field.label }}</label>
+              {% if "valor" in field.name%}
+                <input type="number" name="{{ field.name }}" step="0.01" id="{{ field.auto_id }}" readonly value="0.00">
+              {% else %}
+              {{ field }}
+              {% endif %}
+            </div>
           {% endfor %}
         </fieldset>
         <div class="col-4 text-center">

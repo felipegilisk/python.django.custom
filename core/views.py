@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.http import JsonResponse
 from core.models import *
 from core.forms import *
 
@@ -242,3 +243,8 @@ def delete_veiculo(request, id_veiculo):
         )
     return redirect(listar_veiculo)
 
+
+def veiculo_get_valor_mensal(request, id_veiculo):
+    veiculo = Veiculo.objects.get(id_veiculo=id_veiculo)
+    valor_mensal = veiculo.grupo_veiculo.valor_mensal
+    return JsonResponse({'valor_mensal': valor_mensal})

@@ -50,7 +50,7 @@ class Indisponibilidade(models.Model):
 
 class IndisponibilidadeSerializer(serializers.ModelSerializer):
     veiculo = VeiculoSerializer(read_only=True)
-    # unidade = UnidadeSerializer()
+    unidade = UnidadeSerializer()
 
     class Meta:
         model = Indisponibilidade
