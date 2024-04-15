@@ -15,7 +15,7 @@
         {% load i18n %}
         {% language 'pt-br' %}
         {% csrf_token %}
-        {% for field in form %}
+        {% for field in form.apontamento_reserva %}
           <div class="my-2">
             <label for="{{ field.id_for_label }}" class="col-3 ml-1 align-top">{{ field.label }}</label>
             {% if "valor" in field.name%}

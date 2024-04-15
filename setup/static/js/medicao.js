@@ -1,34 +1,49 @@
 var totalValorMensal = 0;
 var tabela_medicao = document.querySelector('#table_1>tbody');
 
-veic_ser.forEach(function(veiculo) {
-    totalValorMensal += parseFloat(veiculo.grupo_veiculo.valor_mensal);
-    var new_row = tabela_medicao.insertRow();
-    var cell_tipo = new_row.insertCell();
-    cell_tipo.textContent = "Base";
-    var cell_placa = new_row.insertCell();
-    cell_placa.textContent = veiculo.placa;
-    var cell_modelo = new_row.insertCell();
-    cell_modelo.textContent = veiculo.marca_modelo;
-    var cell_grupo = new_row.insertCell();
-    cell_grupo.textContent = veiculo.grupo_veiculo.id_grupo_veiculo + " - " + veiculo.grupo_veiculo.descricao_grupo;
-    var cell_valor = new_row.insertCell();
-    cell_valor.textContent = "R$ "+ parseFloat(veiculo.grupo_veiculo.valor_mensal).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-});
+function parseStringToDate(s) {
+    return new Date(s.replace(' ', 'T'))
+    // return new Date(b[2], b[1] - 1, b[0], b[3], b[4]);
+}
 
-indisp_ser.forEach(function(indisp) {
-    totalValorMensal -= parseFloat(indisp.valor_indisponibilidade);
+function formatarData(d) {
+    const dia = String(d.getDate()).padStart(2, '0');
+    const mes = String(d.getMonth() + 1).padStart(2, '0');
+    const ano = d.getFullYear();
+    const hora = String(d.getHours()).padStart(2, '0');
+    const minuto = String(d.getMinutes()).padStart(2, '0');
+    
+    return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+}
+
+
+
+indisp_ser.forEach(function(item) {
+    totalValorMensal += parseFloat(item.valor);
+
     var new_row = tabela_medicao.insertRow();
+
     var cell_tipo = new_row.insertCell();
-    cell_tipo.textContent = "Indisponibilidade";
     var cell_placa = new_row.insertCell();
-    cell_placa.textContent = indisp.veiculo.placa;
     var cell_modelo = new_row.insertCell();
-    cell_modelo.textContent = indisp.veiculo.marca_modelo;
     var cell_grupo = new_row.insertCell();
-    cell_grupo.textContent = indisp.veiculo.grupo_veiculo.id_grupo_veiculo + " - " + indisp.veiculo.grupo_veiculo.descricao_grupo;
+    var cell_inicio = new_row.insertCell();
+    var cell_fim = new_row.insertCell();
+    var cell_horas = new_row.insertCell();
+    var cell_opcoes = new_row.insertCell();
     var cell_valor = new_row.insertCell();
-    cell_valor.textContent = "- R$ "+ parseFloat(indisp.valor_indisponibilidade).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+    cell_tipo.textContent = item.tipo;
+    cell_placa.textContent = item.placa;
+    cell_modelo.textContent = item.marca_modelo;
+    cell_grupo.textContent = item.grupo;
+    // datas
+    inicio = parseStringToDate(item.inicio);
+    cell_inicio.textContent = formatarData(inicio);
+    termino = parseStringToDate(item.termino);
+    cell_fim.textContent = formatarData(termino);
+    cell_horas.textContent = item.total_horas;
+    cell_valor.textContent = "R$ "+ parseFloat(item.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
 });
 
 var tfoot = document.querySelector('tfoot>tr');

@@ -4,7 +4,7 @@ $(document).ready(function () {
       var valorFormatado = parseFloat(valor).toFixed(2);
       $(this).val(valorFormatado);
   });
-url: "{% url 'veiculo_get_valor_mensal' veiculoId %}",
+  url: "{% url 'veiculo_get_valor_mensal' veiculoId %}",
   $(function () {
     $('[data-toggle="tooltip"]').tooltip()
   })
@@ -21,50 +21,45 @@ url: "{% url 'veiculo_get_valor_mensal' veiculoId %}",
             $('#reserva_form').hide();
         }
     });
-}
-$('#id_veiculo').change(function() {
-  var veiculoId = $(this).val();
-  if (veiculoId != "") {
-    $.ajax({
-      url: "/core/veiculo_get_valor_mensal/" + veiculoId,
-        type: 'GET',
-        success: function(data) {
-            var valorBase = data.valor_mensal
-            $('#id_valor_base_veiculo').val(valorBase);
-            var valorReserva = $('#id_valor_mensal_considerado').val();
-            if (valorReserva > valorBase) {
-              $('#id_valor_mensal_considerado').val(data.valor_mensal);
-            }
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            console.log('Erro ao obter valor mensal do veículo:', errorThrown);
-        }
-    });
-  } else {
-    $('#id_valor_base_veiculo').val("0.00");
   }
-});
+  $('#id_veiculo').change(function() {
+    var veiculoId = $(this).val();
+    if (veiculoId != "") {
+      $.ajax({
+        url: "/core/veiculo_get_valor_mensal/" + veiculoId,
+          type: 'GET',
+          success: function(data) {
+              var valorBase = data.valor_mensal
+              $('#id_valor_base_veiculo').val(valorBase);
+              calcular();
+          },
+          error: function(xhr, textStatus, errorThrown) {
+              console.log('Erro ao obter valor mensal do veículo:', errorThrown);
+          }
+      });
+    } else {
+      $('#id_valor_base_veiculo').val("0.00");
+    }
+  });
 
-$('#id_veiculo_reserva').change(function() {
-  var veiculoId = $(this).val();
-  if (veiculoId != "") {
-    $.ajax({
-      url: "/core/veiculo_get_valor_mensal/" + veiculoId,
-        type: 'GET',
-        success: function(data) {
-            var valorReserva = data.valor_mensal
-            var valorBase = $('#id_valor_base_veiculo').val();
-            if (valorReserva > valorBase) {
-              valorReserva = valorBase
-            }
-            $('#id_valor_mensal_considerado').val(valorReserva);
-        },
-        error: function(xhr, textStatus, errorThrown) {
-            console.log('Erro ao obter valor mensal do veículo:', errorThrown);
-        }
-    });
-  } else {
-    $('#id_valor_mensal_considerado').val("0.00");
+  $('#id_data_hora_inicio').change(function() {
+    calcular();
+  });
+
+  $('#id_data_hora_termino').change(function() {
+    calcular();
+  });
+
+  function calcular() {
+    valorBase = parseFloat($('#id_valor_base_veiculo').val());
+    dataInicial = new Date($("#id_data_hora_inicio").val());
+    dataTermino = new Date($("#id_data_hora_termino").val());
+    if (dataInicial != "Invalid Date" && dataTermino != "Invalid Date" && dataInicial < dataTermino && valorBase > 0) {
+      horas = parseInt((dataTermino - dataInicial)/(60*60*1000));
+      $("#id_valor_indisponibilidade").val((valorBase*horas/720).toFixed(2));
+    } else {
+      $("#id_valor_indisponibilidade").val("0.00");
+    }
+    return null;
   }
-});
 });

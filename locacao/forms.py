@@ -103,7 +103,7 @@ class IndisponibilidadeUpdateForm(forms.ModelForm):
             elif field_name == "veiculo":
                 field.label = "Veículo"
                 field.widget.attrs['class'] = 'col-4'
-                field.queryset = Veiculo.objects.exclude(unidade_id=0, situacao=1)
+                field.queryset = Veiculo.objects.exclude(unidade_id=0, situacao=0)
             
             elif field_name == "tem_reserva":
                 field.label = "Veículo reserva fornecido?"
@@ -112,16 +112,6 @@ class IndisponibilidadeUpdateForm(forms.ModelForm):
             elif field_name == "apontamento_reserva":
                 field.required = False
 
-
-    def clean(self):
-        cleaned_data = super().clean()
-        veiculo = cleaned_data.get('veiculo')
-
-        if veiculo:
-            valor_mensal = veiculo.grupo_veiculo.valor_mensal
-            cleaned_data['valor_base_veiculo'] = valor_mensal
-
-        return cleaned_data
 
 
 class IndisponibilidadeInsertForm(IndisponibilidadeUpdateForm):

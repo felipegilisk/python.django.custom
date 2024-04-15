@@ -28,7 +28,7 @@ class Veiculo(models.Model):
         unique=True,
         validators = [
             RegexValidator(
-                regex="([A-Z]){3}[0-9]([0-9]|[A-J])([0-9]){2}",
+                regex="([A-Z]){3}([0-9])([0-9]|[A-J])([0-9]){2}",
                 message="Insira uma placa no formato AAA1A11",
                 code="invalid_registration"
                 ),

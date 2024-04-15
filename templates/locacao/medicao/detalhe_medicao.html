@@ -30,13 +30,17 @@
             <th>Placa</th>
             <th>Marca/Modelo</th>
             <th>Grupo</th>
-            <th>Valor Mensal</th>
+            <th>Início</th>
+            <th>Fim</th>
+            <th>Total de Horas</th>
+            <th>Opções</th>
+            <th>Valor</th>
           </thead>
           <tbody>
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="4">Total:</td>
+              <td colspan="8">Total:</td>
             </tr>
           </tfoot>
         </table>
@@ -51,7 +55,6 @@
   </section>
 </main>
 <script>
-  var veic_ser = JSON.parse('{{ veic_ser | safe }}');
   var indisp_ser = JSON.parse('{{ indisp_ser | safe }}')
 </script>
 <script src="{% static 'js/medicao.js' %}"></script>

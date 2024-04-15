@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from locacao.models import *
 from core.models import *
+from core.utils import *
 from locacao.forms import *
 
 
@@ -34,22 +35,32 @@ def detalhe_medicao(request, id_unidade=None):
     veiculo_serializer = VeiculoSerializer(veiculos, many=True)
     veiculo_serialized_data = veiculo_serializer.data
 
-    indisp_serializer = IndisponibilidadeSerializer(indisponibilidades, many=True)
-    indisp_serialized_data = indisp_serializer.data
+    # indisp_serializer = IndisponibilidadeSerializer(indisponibilidades, many=True)
+    # indisp_serialized_data = indisp_serializer.data
+    indisp = IndisponibilidadeSerializer()
+    indisp.start_date = datetime(day=1, month=mes, year=ano)
+    if mes == 12:
+        indisp.end_date = datetime(day=1, month=1, year=ano+1) - timedelta(microseconds=1)
+    else:
+        indisp.end_date = datetime(day=1, month=mes+1, year=ano) - timedelta(microseconds=1)
 
+    i = indisp.get_results()
+    
     dados = {
         'medicao': medicao,
         'veiculos': veiculos,
         'data_medicao': data_medicao,
         'unidade': unidade,
-        'veic_ser': dumps(veiculo_serialized_data),
-        'indisp_ser': dumps(indisp_serialized_data)
+        # 'veic_ser': dumps(veiculo_serialized_data),
+        'indisp_ser': dumps(i)
     }
     return render(request, r"locacao\medicao\detalhe_medicao.html", dados)
 
 
 def novo_apontamento(request):
     id_unidade = int(request.GET.get("unidade_medicao"))
+    data_medicao = request.GET.get("data_medicao").split(' de ')
+    data_medicao = datetime(day=1, month=get_month_by_name(data_medicao[1]), year=int(data_medicao[-1]))
     form = IndisponibilidadeInsertForm()
     for field_name, field in form.fields.items():
         if field_name == "unidade_indisponibilidade":
@@ -57,6 +68,9 @@ def novo_apontamento(request):
             field.empty_label = None
         elif field_name == 'veiculo':
             field.queryset = Veiculo.objects.filter(unidade_id=id_unidade).exclude(situacao=0)
+        elif 'data' in field_name:
+            field.widget.attrs['min'] = data_medicao.isoformat()
+            field.widget.attrs['max'] = datetime.today().isoformat()[:19]
 
     return render(request, r'locacao\medicao\novo_apontamento.html', {'form': form})
 
