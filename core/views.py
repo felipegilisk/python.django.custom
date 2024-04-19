@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import JsonResponse
+from django.contrib.auth.models import User
 from core.models import *
 from core.forms import *
 
@@ -13,6 +14,15 @@ def home(request):
     if request.path == '/':
         return redirect('')
     return render(request, r"index.html")
+
+
+#####################
+### USUÁRIOS
+#####################
+
+def listar_usuario(request):
+    usuarios = User.objects.all()
+    return render(request, r"auth\listar_usuario.html", {"usuarios": usuarios})
 
 
 #####################

@@ -4,6 +4,8 @@ from core.views import *
 
 urlpatterns = [
     path('', home, name="home"),
+    # Usuario
+    path('listar_usuario/', listar_usuario, name="listar_usuario"),
     # Unidade
     path('listar_unidade/', listar_unidade, name="listar_unidade"),
     path('cadastrar_unidade/', cadastrar_unidade, name="cadastrar_unidade"),

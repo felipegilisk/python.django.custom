@@ -10,21 +10,19 @@
       </a>
       <div class="btn-group" role="group">
         <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Usuários
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdown-veiculo">
+        <li><a class="dropdown-item" href="{% url 'listar_usuario' %}">Listar</a></li>
+        </ul>
+      </div>
+      <div class="btn-group" role="group">
+        <button type="button" class="btn btn-light dropdown-toggle" id="dropdown-veiculo" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Locação
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdown-veiculo">
           <li><a class="dropdown-item" href="{% url 'pre_medicao' %}">Medição</a></li>
-          <li>
-            <a class="dropdown-item dropleft" href="#">Indisponibilidades
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-right-fill" viewBox="0 0 16 16">
-                <path d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"/>
-              </svg>  
-            </a>
-            <ul class="dropdown-menu dropdown-submenu">
-              <li><a class="dropdown-item" href="{% url 'novo_apontamento' %}">Novo Apontamento</a></li>
-            </ul>
-          </li>
-          <a class="dropdown-item" href="{% url 'listar_reservas' %}">Reservas</a>
+          <li><a class="dropdown-item" href="{% url 'listar_reservas' %}">Reservas</a></li>
         </ul>
       </div>
       <div class="btn-group" role="group">

@@ -28,15 +28,7 @@ def detalhe_medicao(request, id_unidade=None):
     mes = int(request.GET.get("mes_medicao_month"))
     ano = int(request.GET.get("mes_medicao_year"))
     data_medicao = date(day=1, month=mes, year=ano)
-    medicao = Medicao.objects.filter(mes_medicao=data_medicao, unidade_medicao=unidade)
-    veiculos = Veiculo.objects.filter(unidade=unidade, situacao=1)
-    indisponibilidades = Indisponibilidade.objects.filter(unidade_indisponibilidade=unidade, status=0)
-
-    veiculo_serializer = VeiculoSerializer(veiculos, many=True)
-    veiculo_serialized_data = veiculo_serializer.data
-
-    # indisp_serializer = IndisponibilidadeSerializer(indisponibilidades, many=True)
-    # indisp_serialized_data = indisp_serializer.data
+    
     indisp = IndisponibilidadeSerializer()
     indisp.start_date = datetime(day=1, month=mes, year=ano)
     if mes == 12:
@@ -45,19 +37,23 @@ def detalhe_medicao(request, id_unidade=None):
         indisp.end_date = datetime(day=1, month=mes+1, year=ano) - timedelta(microseconds=1)
 
     i = indisp.get_results()
+    v_total = 0
+    for item in i:
+        item['inicio'] = datetime.fromisoformat(item['inicio']).strftime('%d/%m/%Y %H:%M')
+        item['termino'] = datetime.fromisoformat(item['termino']).strftime('%d/%m/%Y %H:%M')
+        v_total += item['valor']
     
     dados = {
-        'medicao': medicao,
-        'veiculos': veiculos,
         'data_medicao': data_medicao,
         'unidade': unidade,
-        # 'veic_ser': dumps(veiculo_serialized_data),
-        'indisp_ser': dumps(i)
+        'indisp_ser': dumps(i),
+        'teste': i,
+        'total': v_total,
     }
     return render(request, r"locacao\medicao\detalhe_medicao.html", dados)
 
 
-def novo_apontamento(request):
+def nova_indisponibilidade(request):
     id_unidade = int(request.GET.get("unidade_medicao"))
     data_medicao = request.GET.get("data_medicao").split(' de ')
     data_medicao = datetime(day=1, month=get_month_by_name(data_medicao[1]), year=int(data_medicao[-1]))
@@ -72,7 +68,7 @@ def novo_apontamento(request):
             field.widget.attrs['min'] = data_medicao.isoformat()
             field.widget.attrs['max'] = datetime.today().isoformat()[:19]
 
-    return render(request, r'locacao\medicao\novo_apontamento.html', {'form': form})
+    return render(request, r'locacao\medicao\nova_indisponibilidade.html', {'form': form})
 
 
 def insert_indisponibilidade(request):
@@ -111,4 +107,55 @@ def insert_indisponibilidade(request):
             for error in form.errors.keys():
                 messages.error(request, form.errors[error])
     
+    return redirect(pre_medicao)
+
+
+def editar_indisponibilidade(request, id_indisponibilidade):
+    indisponibilidade = Indisponibilidade.objects.get(id_indisponibilidade=id_indisponibilidade)
+    form = IndisponibilidadeInsertForm(instance=indisponibilidade)
+
+    return render(request, r'locacao\medicao\editar_indisponibilidade.html', {'indisponibilidade': indisponibilidade, 'form': form})
+
+
+def update_indisponibilidade(request, id_indisponibilidade):
+    indisponibilidade = Indisponibilidade.objects.get(id_indisponibilidade=id_indisponibilidade)
+    form = IndisponibilidadeInsertForm(request.POST, instance=indisponibilidade)
+    if request.method == 'POST':
+        if form.is_valid():
+            unidade_indisponibilidade = form['unidade_indisponibilidade'].value()
+            data_hora_inicio = datetime.fromisoformat(form['data_hora_inicio'].value())
+            data_hora_termino = datetime.fromisoformat(form['data_hora_termino'].value())
+            veiculo = form['veiculo'].value()
+            valor_base_veiculo = form.cleaned_data['valor_base_veiculo']
+            tempo_indisp = (data_hora_termino - data_hora_inicio)
+            horas_indisp = tempo_indisp.days*24 + tempo_indisp.seconds//3600
+            valor_indisponibilidade = (valor_base_veiculo/720)*horas_indisp
+            tem_reserva = form['tem_reserva'].value()
+            if tem_reserva is False:
+                apontamento_reserva = None
+            else:
+                print(tem_reserva)
+                apontamento_reserva = form['apontamento_reserva'].value()
+            status = False
+
+            indisponibilidade.unidade_indisponibilidade = Unidade.objects.get(id_unidade=unidade_indisponibilidade)
+            indisponibilidade.data_hora_inicio = data_hora_inicio,
+            indisponibilidade.data_hora_termino = data_hora_termino,
+            indisponibilidade.veiculo = Veiculo.objects.get(id_veiculo=veiculo),
+            indisponibilidade.valor_base_veiculo = valor_base_veiculo,
+            indisponibilidade.valor_indisponibilidade = valor_indisponibilidade,
+            indisponibilidade.tem_reserva = tem_reserva,
+            indisponibilidade.apontamento_reserva = apontamento_reserva,
+            indisponibilidade.status = status
+
+            indisponibilidade.save()
+            messages.success(
+                    request,
+                    f"Indisponibilidade atualizada com sucesso!"
+                )
+
+        else:
+            for error in form.errors.keys():
+                messages.error(request, form.errors[error])
+
     return redirect(pre_medicao)

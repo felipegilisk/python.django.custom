@@ -11,29 +11,41 @@ pip install virtualenv
 virtualenv venv
 ```
 
-3. Ativar o ambiente virtual
-```
-venv\Scripts\Activate
-```
+3. Ambiente Virtual:
+- Ativar
+    ```
+    venv\Scripts\Activate
+    ```
+    - Desativar
+    ```
+    deactivate
+    ```
+
 
 4. Instalar as dependências do projeto (no ambiente virtual)
 ```
 pip install -r requirements.txt
 ```
 
-5. Acionar o serviço do django
-```
-python manage.py runserver
-```
-
-
-- Desativar o ambiente virtual:
+5. Serviço do django
+- Iniciar
     ```
-    deactivate
+    python manage.py runserver
     ```
-- Desativar o servidor django: CTRL+C no terminal
+- Interromper
+    CTRL+C no terminal
 
-- Para criar um app chamado 'funcionarios':
+6. Para criar um app chamado 'funcionarios':
     ```
     python manage.py startapp funcionarios
     ```
+
+7. Criar uma página nova:
+- Inserir um arquivo HTML na pasta templates, respeitando a governança
+- Criar uma função no arquivo views.py do app (ex: core/views.py)
+- Incluir o arquivo HTML no retorno da função criada
+- Opcional:
+• Realizar a consulta no BD (ex: Veiculos.objects.all() )
+• Enviar as informações do BD no retorno da função criada
+- Incluir os dados da nova página em urls.py, no mesmo app da view (ex: core/urls.py)
+

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'bootstrap4',
     'core',
     'locacao',
@@ -116,6 +117,11 @@ LANGUAGE_CODE = 'en'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
+USE_L10N = True
+USE_DECIMAL_SEPARATOR = True
+DECIMAL_SEPARATOR = ","
+USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = "."
 
 USE_TZ = True
 
