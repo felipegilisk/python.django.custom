@@ -49,7 +49,7 @@ class Indisponibilidade(models.Model):
 ###### Serializer
 ########################################
 
-class IndisponibilidadeSerializer(): # serializers.ModelSerializer):
+class IndisponibilidadeSerializer():
     def __init__(self) -> None:
         self.sql = """
             SELECT * FROM (
@@ -104,8 +104,8 @@ class IndisponibilidadeSerializer(): # serializers.ModelSerializer):
                     la.data_hora_termino																AS 'termino',
                     ROUND((JULIANDAY(la.data_hora_termino) - JULIANDAY(la.data_hora_inicio))*24, 0)		AS 'total_horas',
                     la.valor_total_uso																	AS 'valor'
-                FROM locacao_indisponibilidade li 
-                RIGHT JOIN locacao_apontamentoreserva la ON li.apontamento_reserva_id = la.id_apontamento_reserva 
+                FROM locacao_apontamentoreserva la
+                LEFT JOIN locacao_indisponibilidade li ON li.apontamento_reserva_id = la.id_apontamento_reserva 
                 LEFT JOIN core_veiculo cv ON la.veiculo_reserva_id = cv.id_veiculo
                 LEFT JOIN core_grupoveiculo cg ON cv.grupo_veiculo_id = cg.id_grupo_veiculo
                 WHERE li.unidade_indisponibilidade_id = %s AND

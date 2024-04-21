@@ -72,6 +72,7 @@ def nova_indisponibilidade(request):
 
 
 def insert_indisponibilidade(request):
+    rtrn = redirect(pre_medicao)
     if request.method == 'POST':
         form = IndisponibilidadeInsertForm(request.POST)
         if form.is_valid():
@@ -84,14 +85,10 @@ def insert_indisponibilidade(request):
             horas_indisp = tempo_indisp.days*24 + tempo_indisp.seconds//3600
             valor_indisponibilidade = (valor_base_veiculo/720)*horas_indisp
             tem_reserva = form['tem_reserva'].value()
-            if tem_reserva is False:
-                apontamento_reserva = None
-            else:
-                print(tem_reserva)
-                apontamento_reserva = form['apontamento_reserva'].value()
+            apontamento_reserva = None
             status = False
             
-            Indisponibilidade.objects.create(
+            indisp = Indisponibilidade.objects.create(
                 unidade_indisponibilidade = Unidade.objects.get(id_unidade=unidade_indisponibilidade),
                 data_hora_inicio = data_hora_inicio,
                 data_hora_termino = data_hora_termino,
@@ -103,59 +100,74 @@ def insert_indisponibilidade(request):
                 status = status
             )
 
+            if tem_reserva is True:
+                rtrn = novo_apontamento_reserva(request, indisp)
+
         else:
             for error in form.errors.keys():
                 messages.error(request, form.errors[error])
     
-    return redirect(pre_medicao)
+    return rtrn
 
 
-def editar_indisponibilidade(request, id_indisponibilidade):
-    indisponibilidade = Indisponibilidade.objects.get(id_indisponibilidade=id_indisponibilidade)
-    form = IndisponibilidadeInsertForm(instance=indisponibilidade)
+def novo_apontamento_reserva(request, indisponibilidade: Indisponibilidade):
+    form = ApontamentoReservaInsertForm()
+    for field_name, field in form.fields.items():
+        if 'data' in field_name:
+            field.widget.attrs['min'] = indisponibilidade.data_hora_inicio
+            field.widget.attrs['max'] = indisponibilidade.data_hora_termino
+        
+        elif field_name == "valor_total_uso":
+            field.widget.attrs['readonly'] = ""
 
-    return render(request, r'locacao\medicao\editar_indisponibilidade.html', {'indisponibilidade': indisponibilidade, 'form': form})
+    return render(request, r'locacao\medicao\novo_apontamento_reserva.html', {'form': form, 'indisponibilidade': indisponibilidade})
 
 
-def update_indisponibilidade(request, id_indisponibilidade):
-    indisponibilidade = Indisponibilidade.objects.get(id_indisponibilidade=id_indisponibilidade)
-    form = IndisponibilidadeInsertForm(request.POST, instance=indisponibilidade)
+def insert_apontamento_reserva(request):
     if request.method == 'POST':
+        form = ApontamentoReservaInsertForm(request.POST)
         if form.is_valid():
-            unidade_indisponibilidade = form['unidade_indisponibilidade'].value()
+            veiculo_reserva = Veiculo.objects.get(id_veiculo=int(form['veiculo_reserva'].value()))
             data_hora_inicio = datetime.fromisoformat(form['data_hora_inicio'].value())
             data_hora_termino = datetime.fromisoformat(form['data_hora_termino'].value())
-            veiculo = form['veiculo'].value()
-            valor_base_veiculo = form.cleaned_data['valor_base_veiculo']
-            tempo_indisp = (data_hora_termino - data_hora_inicio)
-            horas_indisp = tempo_indisp.days*24 + tempo_indisp.seconds//3600
-            valor_indisponibilidade = (valor_base_veiculo/720)*horas_indisp
-            tem_reserva = form['tem_reserva'].value()
-            if tem_reserva is False:
-                apontamento_reserva = None
-            else:
-                print(tem_reserva)
-                apontamento_reserva = form['apontamento_reserva'].value()
-            status = False
+            valor_mensal_considerado = float(form['valor_mensal_considerado'].value())
+            valor_total_uso = float(form['valor_mensal_considerado'].value())
+            
+            apontamento_reserva = ApontamentoReserva.objects.create(
+                veiculo_reserva = veiculo_reserva,
+                data_hora_inicio = data_hora_inicio,
+                data_hora_termino = data_hora_termino,
+                valor_mensal_considerado = valor_mensal_considerado,
+                valor_total_uso = valor_total_uso
+            )
 
-            indisponibilidade.unidade_indisponibilidade = Unidade.objects.get(id_unidade=unidade_indisponibilidade)
-            indisponibilidade.data_hora_inicio = data_hora_inicio,
-            indisponibilidade.data_hora_termino = data_hora_termino,
-            indisponibilidade.veiculo = Veiculo.objects.get(id_veiculo=veiculo),
-            indisponibilidade.valor_base_veiculo = valor_base_veiculo,
-            indisponibilidade.valor_indisponibilidade = valor_indisponibilidade,
-            indisponibilidade.tem_reserva = tem_reserva,
-            indisponibilidade.apontamento_reserva = apontamento_reserva,
-            indisponibilidade.status = status
-
+            indisponibilidade = Indisponibilidade.objects.get(int(form['indisponibilidade'].value()))
+            indisponibilidade.tem_reserva = 1
+            indisponibilidade.apontamento_reserva = apontamento_reserva
             indisponibilidade.save()
-            messages.success(
-                    request,
-                    f"Indisponibilidade atualizada com sucesso!"
-                )
 
         else:
             for error in form.errors.keys():
                 messages.error(request, form.errors[error])
+
+    return redirect(pre_medicao)
+
+
+def excluir_indisponibilidade(request, id_indisponibilidade):
+    indisponibilidade = Indisponibilidade.objects.get(id_indisponibilidade=id_indisponibilidade)
+    total_tempo = indisponibilidade.data_hora_termino - indisponibilidade.data_hora_inicio
+    total_horas = total_tempo.total_seconds()//(60*60)
+
+    return render(request, r'locacao\medicao\deletar_indisponibilidade.html', {'indisponibilidade': indisponibilidade, 'total_horas': total_horas})
+
+
+def delete_indisponibilidade(request, id_indisponibilidade):
+    indisponibilidade = Indisponibilidade.objects.get(id_indisponibilidade=id_indisponibilidade)
+    if request.method == 'POST':
+        indisponibilidade.delete()
+        messages.success(
+                request,
+                f"Indisponibilidade excluída com sucesso!"
+            )
 
     return redirect(pre_medicao)

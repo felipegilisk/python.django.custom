@@ -30,8 +30,7 @@
             <th>Início</th>
             <th>Fim</th>
             <th>Total de Horas</th>
-            <th class="column_icon">Editar</th>
-            <th class="column_icon">Excluir</th>
+            <th class="column_icon_2">Opções</th>
             <th>Valor</th>
           </thead>
           <tbody>
@@ -43,15 +42,15 @@
                 <td class="align-middle">{{ item.grupo }}</td>
                 <td class="align-middle">{{ item.inicio }}</td>
                 <td class="align-middle">{{ item.termino }}</td>
-                <td class="align-middle">{{ item.total_horas }}</td>
+                <td class="align-middle">{{ item.total_horas|floatformat:0 }}</td>
                 {% if item.tipo == "Indisponibilidade" %}
-                  <td class="align-middle"><a href="{% url 'editar_indisponibilidade' item.id_edit %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a></td>
-                  <td class="align-middle"><a href="" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></td>
+                  <td class="align-middle"><a href="{% url 'excluir_indisponibilidade' item.id_edit %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></td>
                 {% elif item.tipo == "Reserva" %}
-                  <td class="align-middle"><a href="" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a></td>
-                  <td class="align-middle"><a href="" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></td>
+                  <td class="align-middle">
+                    <a href="" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a>
+                    <a href="" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                  </td>
                 {% else %}
-                  <td class="align-middle"></td>
                   <td class="align-middle"></td>
                 {% endif %}
                 <td class="align-middle">R$ {{ item.valor|floatformat:2|intcomma }}</td>
@@ -60,8 +59,8 @@
           </tbody>
           <tfoot>
             <tr>
-              <td colspan="9">Total:</td>
-              <td>R$ {{ total }}</td>
+              <td colspan="8">Total:</td>
+              <td>R$ {{ total|floatformat:2|intcomma }}</td>
             </tr>
           </tfoot>
         </table>
@@ -75,9 +74,6 @@
     </div>
   </section>
 </main>
-<script>
-  var indisp_ser = JSON.parse('{{ indisp_ser | safe }}')
-</script>
 <script src="{% static 'js/medicao.js' %}"></script>
 {% endblock %}
 {% include 'partials/_footer.html' %}

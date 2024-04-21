@@ -45,7 +45,7 @@ class ApontamentoReservaInsertForm(forms.ModelForm):
             "data_hora_inicio",
             "data_hora_termino",
             "valor_mensal_considerado",
-            "valor_total_uso"
+            "valor_total_uso",
         ]
     
     def __init__(self, *args, **kwargs):
@@ -67,7 +67,7 @@ class ApontamentoReservaInsertForm(forms.ModelForm):
                 field.widget.attrs['class'] = 'col-3'
 
 
-class IndisponibilidadeUpdateForm(forms.ModelForm):
+class IndisponibilidadeInsertForm(forms.ModelForm):
     apontamento_reserva = ApontamentoReservaInsertForm()
     class Meta:
         model = Indisponibilidade
@@ -83,7 +83,7 @@ class IndisponibilidadeUpdateForm(forms.ModelForm):
         
 
     def __init__(self, *args, **kwargs):
-        super(IndisponibilidadeUpdateForm, self).__init__(*args, **kwargs)
+        super(IndisponibilidadeInsertForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             if field_name == "unidade_indisponibilidade":
                 field.label = "Unidade"
@@ -111,10 +111,4 @@ class IndisponibilidadeUpdateForm(forms.ModelForm):
             
             elif field_name == "apontamento_reserva":
                 field.required = False
-
-
-
-class IndisponibilidadeInsertForm(IndisponibilidadeUpdateForm):
-    def __init__(self, *args, **kwargs):
-        super(IndisponibilidadeInsertForm, self).__init__(*args, **kwargs)
 
