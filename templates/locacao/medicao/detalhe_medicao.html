@@ -2,12 +2,12 @@
 {% load static %}
 {% load bootstrap4 %}
 {% block content %}
+{% load i18n %}
+{% language 'pt-br' %}
+{% load humanize %}
 <main class="flex-fill custom-main">
   {% include 'partials/_navbar.html' %}
   <section class="conteudo">
-    {% load i18n %}
-    {% load humanize %}
-    {% language 'pt-br' %}
     <div class="container mt-4 text-center">
       <h2 class="font-weight-bold header-1 p-2">
         <span class="fas fa-table mr-2">Medição de Locação {{ unidade }} - {{ data_medicao|date:'F/Y' }}</span>

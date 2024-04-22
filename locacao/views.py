@@ -36,7 +36,7 @@ def detalhe_medicao(request, id_unidade=None):
     else:
         indisp.end_date = datetime(day=1, month=mes+1, year=ano) - timedelta(microseconds=1)
 
-    i = indisp.get_results()
+    i = indisp.get_results(unidade.id_unidade)
     v_total = 0
     for item in i:
         item['inicio'] = datetime.fromisoformat(item['inicio']).strftime('%d/%m/%Y %H:%M')

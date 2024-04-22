@@ -116,18 +116,17 @@ class IndisponibilidadeSerializer():
 
         self.start_date = datetime.today().replace(day=1, hour=0, minute=0, microsecond=0)
         self.end_date = ((self.start_date + timedelta(days=35)).replace(day=1)) - timedelta(days=1)
-        self.unidade = 1
 
-    def get_results(self):
+    def get_results(self, unidade:int=1):
         with connection.cursor() as cursor:
             cursor.execute(self.sql, [
                 self.start_date,
                 self.end_date,
-                self.unidade,
-                self.unidade,
+                unidade,
+                unidade,
                 self.start_date,
                 self.end_date,
-                self.unidade,
+                unidade,
                 self.start_date,
                 self.end_date])
             cols = [col[0] for col in cursor.description]

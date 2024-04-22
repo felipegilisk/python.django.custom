@@ -2,12 +2,14 @@
 {% load static %}
 {% load bootstrap4 %}
 {% block content %}
+{% load i18n %}
+{% language 'pt-br' %}
 <main class="flex-shrink-0">
   {% include 'partials/_navbar.html' %}
   <section class="conteudo">
     <div class="container mt-4 text-center">
       <h2 class="font-weight-bold text-white bg-info p-2">
-        <i class="fas fa-table mr-2">Lista de Reservas da Locadora</i>
+        <i class="fas fa-table mr-2">Lista de reservas da locadora</i>
       </h2>
     </div>
     <div class="container mt-4">
@@ -27,7 +29,7 @@
               <td class="align-middle">{{ veiculo.placa }}</td>
               <td class="align-middle">{{ veiculo.marca_modelo }}</td>
               <td class="align-middle">{{ veiculo.grupo_veiculo }}</td>
-              <td class="align-middle">{{ veiculo.grupo_veiculo.valor_mensal }}</td>
+              <td class="align-middle">R$ {{ veiculo.grupo_veiculo.valor_mensal }}</td>
               <td class="align-middle text-center">
                 <a href="{% url 'editar_veiculo' veiculo.id_veiculo %}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil"></i></a>
               </td>
@@ -38,5 +40,6 @@
     </div>
   </section>
 </main>
+{% endlanguage %}
 {% endblock %}
 {% include 'partials/_footer.html' %}
