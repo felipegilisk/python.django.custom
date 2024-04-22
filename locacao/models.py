@@ -23,7 +23,7 @@ class Medicao(models.Model):
 
 
 class ApontamentoReserva(models.Model):
-    id_apontamento_reserva = models.IntegerField(primary_key=True)
+    id_apontamento_reserva = models.AutoField(primary_key=True)
     veiculo_reserva = models.ForeignKey(Veiculo, on_delete=models.PROTECT)
     data_hora_inicio = models.DateTimeField()
     data_hora_termino = models.DateTimeField()
@@ -32,7 +32,7 @@ class ApontamentoReserva(models.Model):
 
 
 class Indisponibilidade(models.Model):
-    id_indisponibilidade = models.IntegerField(primary_key=True)
+    id_indisponibilidade = models.AutoField(primary_key=True)
     unidade_indisponibilidade = models.ForeignKey(Unidade, on_delete=models.PROTECT)
     data_hora_inicio = models.DateTimeField()
     data_hora_termino = models.DateTimeField()

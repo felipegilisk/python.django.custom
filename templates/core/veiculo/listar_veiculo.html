@@ -19,7 +19,7 @@
           <th>Grupo</th>
           <th>Unidade</th>
           <th class="column_icon">Situação</th>
-          <th class="column_icon">Editar</th>
+          <th class="column_icon">Opções</th>
         </thead>
         <tbody>
           {% for veiculo in veiculos %}
@@ -30,7 +30,9 @@
               <td class="align-middle">{{ veiculo.grupo_veiculo }}</td>
               <td class="align-middle">{{ veiculo.unidade }}</td>
               <td class="align-middle text-center">{% if veiculo.situacao %}<i class="bi bi-car-front-fill h4"></i>{% else %}<i class="bi bi-x-circle-fill h4"></i>{% endif %}</td>
-              <td class="align-middle text-center"><a href="{% url 'editar_veiculo' veiculo.id_veiculo %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a></td>
+              <td class="align-middle text-center">
+                <a href="{% url 'editar_veiculo' veiculo.id_veiculo %}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil"></i></a>
+              </td>
             </tr>
           {% endfor %}
         </tbody>

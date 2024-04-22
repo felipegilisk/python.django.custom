@@ -38,6 +38,7 @@ class MedicaoFilterForm(forms.ModelForm):
 
 
 class ApontamentoReservaInsertForm(forms.ModelForm):
+    indisponibilidade = forms.CharField(widget=forms.HiddenInput())
     class Meta:
         model = ApontamentoReserva
         fields = [
@@ -53,7 +54,7 @@ class ApontamentoReservaInsertForm(forms.ModelForm):
         for field_name, field in self.fields.items():
             if field_name == "veiculo_reserva":
                 field.label = "Veículo Reserva"
-                field.widget.attrs['class'] = 'col-4'
+                field.widget.attrs['class'] = 'col-4 campo_placa'
                 field.queryset = Veiculo.objects.filter(unidade_id=0, situacao=1)
 
             elif field_name == "data_hora_inicio":
@@ -68,7 +69,6 @@ class ApontamentoReservaInsertForm(forms.ModelForm):
 
 
 class IndisponibilidadeInsertForm(forms.ModelForm):
-    apontamento_reserva = ApontamentoReservaInsertForm()
     class Meta:
         model = Indisponibilidade
         fields = [
@@ -102,7 +102,7 @@ class IndisponibilidadeInsertForm(forms.ModelForm):
 
             elif field_name == "veiculo":
                 field.label = "Veículo"
-                field.widget.attrs['class'] = 'col-4'
+                field.widget.attrs['class'] = 'col-4 campo_placa'
                 field.queryset = Veiculo.objects.exclude(unidade_id=0, situacao=0)
             
             elif field_name == "tem_reserva":

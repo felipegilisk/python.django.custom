@@ -97,7 +97,7 @@ class VeiculoUpdateForm(forms.ModelForm):
                 field.label = "Placa"
                 field.widget = forms.TextInput(
                     attrs={
-                        'class': 'col-2',
+                        'class': 'col-2 campo_placa',
                         'maxlength': '7',
                     }
                 )

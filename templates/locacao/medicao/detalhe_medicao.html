@@ -35,7 +35,7 @@
           </thead>
           <tbody>
             {% for item in teste %}
-              <tr class={% if item.tipo == "Indisponibilidade" %}"table-secondary"{% elif item.tipo == "Reserva" %}"table-warning"{% else %}"table-info"{% endif %}>
+              <tr class={% if item.tipo == "Indisponibilidade" %}"table-secondary"{% elif item.tipo == "Reserva" %}"table-warning"{% else %}"table-primary"{% endif %}>
                 <td class="align-middle">{{ item.tipo }}</td>
                 <td class="align-middle">{{ item.placa }}</td>
                 <td class="align-middle">{{ item.marca_modelo }}</td>
@@ -44,11 +44,13 @@
                 <td class="align-middle">{{ item.termino }}</td>
                 <td class="align-middle">{{ item.total_horas|floatformat:0 }}</td>
                 {% if item.tipo == "Indisponibilidade" %}
-                  <td class="align-middle"><a href="{% url 'excluir_indisponibilidade' item.id_edit %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></td>
+                  <td class="align-middle">
+                    <a href="{% url 'excluir_indisponibilidade' item.id_edit %}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="bi bi-trash"></i>
+                  </td>
                 {% elif item.tipo == "Reserva" %}
                   <td class="align-middle">
-                    <a href="" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a>
-                    <a href="" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                    <a href="" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil"></i></a>
+                    <a href="" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Excluir"><i class="bi bi-trash"></i></a>
                   </td>
                 {% else %}
                   <td class="align-middle"></td>

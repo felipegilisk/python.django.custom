@@ -141,7 +141,7 @@ def insert_apontamento_reserva(request):
                 valor_total_uso = valor_total_uso
             )
 
-            indisponibilidade = Indisponibilidade.objects.get(int(form['indisponibilidade'].value()))
+            indisponibilidade = Indisponibilidade.objects.get(id_indisponibilidade=int(form['indisponibilidade'].value()))
             indisponibilidade.tem_reserva = 1
             indisponibilidade.apontamento_reserva = apontamento_reserva
             indisponibilidade.save()

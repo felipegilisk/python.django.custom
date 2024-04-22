@@ -30,7 +30,7 @@
               <td class="align-middle">{{ user.email }}</td>
               <td class="align-middle text-center">{% if user.is_superuser %}<i class="bi bi-check-circle h4"></i>{% else %}<i class="bi bi-x-circle-fill h4"></i>{% endif %}</td>
               <td class="align-middle text-center">{% if user.is_active %}<i class="bi bi-check-circle h4"></i>{% else %}<i class="bi bi-x-circle-fill h4"></i>{% endif %}</td>
-              <td class="align-middle text-center"><a href="" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a></td>
+              <td class="align-middle text-center"><a href="" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil"></i></a></td>
             </tr>
           {% endfor %}
         </tbody>

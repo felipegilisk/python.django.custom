@@ -18,7 +18,7 @@
           <th>Marca/Modelo</th>
           <th>Grupo</th>
           <th>Valor Mensal</th>
-          <th class="column_icon">Editar</th>
+          <th class="column_icon">Opções</th>
         </thead>
         <tbody>
           {% for veiculo in veiculos %}
@@ -28,7 +28,9 @@
               <td class="align-middle">{{ veiculo.marca_modelo }}</td>
               <td class="align-middle">{{ veiculo.grupo_veiculo }}</td>
               <td class="align-middle">{{ veiculo.grupo_veiculo.valor_mensal }}</td>
-              <td class="align-middle text-center"><a href="{% url 'editar_veiculo' veiculo.id_veiculo %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil"></i></a></td>
+              <td class="align-middle text-center">
+                <a href="{% url 'editar_veiculo' veiculo.id_veiculo %}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil"></i></a>
+              </td>
             </tr>
           {% endfor %}
         </tbody>

@@ -17,8 +17,13 @@ main.custom-main {
     margin: auto;
 }
 .column_icon {
-    width: 40px;
-    /* max-width: 40px; */
+    width: 50px;
+}
+.column_icon_2 {
+    width: 100px;
+}
+.column_icon_3 {
+    width: 150px;
 }
 .column_vl_mensal {
     width: 300px;
@@ -32,10 +37,12 @@ thead.thead-yellow th {
 thead.thead-orange th {
     background-color: #ffa844;
 }
+input.campo_placa {
+    font-family: monospace;
+}
 input[name="placa"] {
     max-width: 95px !important;
     text-transform: uppercase;
-    font-family: monospace;
 }
 input#id_mes_medicao_day {
     display: none;
